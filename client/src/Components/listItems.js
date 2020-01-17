@@ -32,7 +32,7 @@ export const mainListItems = (
 
 export const secondaryListItems = (
   <div>
-    <ListItem button>
+    <ListItem button component="a" href="/login">
       <ListItemIcon>
         <ExitToAppIcon />
       </ListItemIcon>

@@ -1,14 +1,35 @@
-import React from 'react';
+//import React from 'react';
+import React, { Component } from 'react';
+import { Router } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
 import Dashboard from './Components/Dashboard';
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <Dashboard/>
-      </header>
-    </div>
-  );
+
+import Routes from './Routes';
+import muiTheme from './Themes/muiTheme';
+// function App() {
+//   return (
+//     <div className="App">
+//       <header className="App-header">
+//         <Dashboard/>
+//       </header>
+//     </div>
+//   );
+// }
+
+// export default App;
+
+const browserHistory = createBrowserHistory();
+
+export default class App extends Component {
+  render() {
+    return (
+      <Router history={browserHistory}>
+        <MuiThemeProvider theme={muiTheme}>
+        <Routes />
+        </MuiThemeProvider>
+      </Router>
+    );
+  }
 }
-
-export default App;
