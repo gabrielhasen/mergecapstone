@@ -17,20 +17,8 @@ import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { mainListItems, secondaryListItems } from './listItems';
-import Routes from '../../Routes';
-
-// function Copyright() {
-//   return (
-//     <Typography variant="body2" color="textSecondary" align="center">
-//       {'Copyright © '}
-//       <Link color="inherit" href="https://material-ui.com/">
-//         Your Website
-//       </Link>{' '}
-//       {new Date().getFullYear()}
-//       {'.'}
-//     </Typography>
-//   );
-// }
+import Sched from '../Scheduler/Sched';
+import Button from '@material-ui/core/Button';
 
 const drawerWidth = 240;
 
@@ -113,71 +101,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-// export default function Dashboard() {
-//   const classes = useStyles();
-//   const [open, setOpen] = React.useState(true);
-//   const handleDrawerOpen = () => {
-//     setOpen(true);
-//   };
-//   const handleDrawerClose = () => {
-//     setOpen(false);
-//   };
-//   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-
-//   return (
-//     <div className={classes.root}>
-//       <CssBaseline />
-//       <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
-//         <Toolbar className={classes.toolbar}>
-//           <IconButton
-//             edge="start"
-//             color="inherit"
-//             aria-label="open drawer"
-//             onClick={handleDrawerOpen}
-//             className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
-//           >
-//             <MenuIcon />
-//           </IconButton>
-//           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-//             Machine Shop Equipment Scheduler
-//           </Typography>
-//         </Toolbar>
-//       </AppBar>
-//       <Drawer
-//         variant="permanent"
-//         classes={{
-//           paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-//         }}
-//         open={open}
-//       >
-//         <div className={classes.toolbarIcon}>
-//           <IconButton onClick={handleDrawerClose}>
-//             <ChevronLeftIcon />
-//           </IconButton>
-//         </div>
-//         <Divider />
-//         <List>{mainListItems}</List>
-//         <Divider />
-//         <List>{secondaryListItems}</List>
-//       </Drawer>
-//       <main className={classes.content}>
-//         <div className={classes.appBarSpacer} />
-//         <Container maxWidth="lg" className={classes.container}>
-//           <Grid container spacing={3}>
-//             {/* Content for the main page */}
-//           </Grid>
-//         </Container>
-//         {/* <Copyright /> */}
-//       </main>
-//     </div>
-//   );
-// }
-
 const Dashboard = props => {
   const { children } = props;
 
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -189,6 +117,8 @@ const Dashboard = props => {
   return (
     <div className={classes.root}>
       <CssBaseline /> 
+
+      {/* Header */}
       <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
         <Toolbar className={classes.toolbar}>
           <IconButton
@@ -201,10 +131,12 @@ const Dashboard = props => {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Machine Shop Equipment Scheduler
+            ME Department Machine Shop
           </Typography>
         </Toolbar>
       </AppBar>
+
+      {/* SideNav */}
       <Drawer
         variant="permanent"
         classes={{
@@ -222,15 +154,17 @@ const Dashboard = props => {
         <Divider />
         <List>{secondaryListItems}</List>
       </Drawer>
+
+      {/* Main Content */}
       <main className={classes.content}>
+        {/* {children} */}
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={3}>
-            {/* Content for the main page */}
-            {children}
-          </Grid>
+        <Grid container spacing={3}>
+          <Sched />
+          <Button variant="contained" component="a" href="/reservation">Make Reservation</Button>
+        </Grid>
         </Container>
-        {/* <Copyright /> */}
       </main>
     </div>
   );

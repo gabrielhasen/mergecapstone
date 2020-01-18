@@ -12,19 +12,8 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import IconButton from '@material-ui/core/IconButton';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -55,6 +44,9 @@ const useStyles = makeStyles(theme => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  back: {
+    margin: theme.spacing(2, 2, 2),
+  }
 }));
 
 export default function SignInSide() {
@@ -65,6 +57,9 @@ export default function SignInSide() {
       <CssBaseline />
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+      <IconButton  className={classes.back} component="a" href="/home">
+            <ArrowBackIosIcon />
+      </IconButton>
         <div className={classes.paper}>
           <Typography component="h1" variant="h5">
             Sign in
@@ -104,7 +99,6 @@ export default function SignInSide() {
               Sign In
             </Button>
             <Box mt={5}>
-              {/* <Copyright /> */}
             </Box>
           </form>
         </div>
