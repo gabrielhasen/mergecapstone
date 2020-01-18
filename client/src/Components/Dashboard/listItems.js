@@ -8,8 +8,14 @@ import BuildIcon from '@material-ui/icons/Build';
 
 export const mainListItems = (
   <div>
-    <ListSubheader inset>Machines</ListSubheader>
+    <ListSubheader inset></ListSubheader>
     <ListItem button>
+      <ListItemIcon>
+        <BuildIcon />
+      </ListItemIcon>
+      <ListItemText primary="Book a Machine" />
+    </ListItem>
+    {/* <ListItem button>
       <ListItemIcon>
         <BuildIcon />
       </ListItemIcon>
@@ -26,7 +32,7 @@ export const mainListItems = (
         <BuildIcon />
       </ListItemIcon>
       <ListItemText primary="Lathes" />
-    </ListItem>
+    </ListItem> */}
   </div>
 );
 
