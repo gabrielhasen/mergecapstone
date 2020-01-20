@@ -18,7 +18,7 @@ class Sched extends Component {
 
     let schedulerData = new SchedulerData(
       today,
-      ViewTypes.Week,
+      ViewTypes.Day,
       false,
       false,
       {
@@ -26,7 +26,12 @@ class Sched extends Component {
         endResizable: false,
         movable: false,
         creatable: false,
-        schedulerWidth: '95%'
+        schedulerWidth: '90%',
+        views : [
+          {viewName: 'Day', viewType: ViewTypes.Day, showAgenda: false, isEventPerspective: false},
+          {viewName: 'Week', viewType: ViewTypes.Week, showAgenda: false, isEventPerspective: false},
+          {viewName: 'Month', viewType: ViewTypes.Month, showAgenda: false, isEventPerspective: false},
+        ]
       }
     );
     schedulerData.localeMoment.locale("en");

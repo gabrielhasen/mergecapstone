@@ -89,6 +89,7 @@ const useStyles = makeStyles(theme => ({
   container: {
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
+    marginLeft: 5
   },
   paper: {
     padding: theme.spacing(2),
@@ -159,11 +160,11 @@ const Dashboard = props => {
       <main className={classes.content}>
         {/* {children} */}
         <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
-        <Grid container spacing={3}>
-          <Sched />
-          <Button variant="contained" component="a" href="/reservation">Make Reservation</Button>
-        </Grid>
+        <Container maxWidth="xs" className={classes.container}>
+          <Grid container spacing={4}>
+            <Sched />
+            <Button variant="contained" component="a" href="/reservation">Make Reservation</Button>
+          </Grid>
         </Container>
       </main>
     </div>
