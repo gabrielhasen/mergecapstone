@@ -6,9 +6,10 @@ import Scheduler, {
   DATE_FORMAT
 } from "react-big-scheduler";
 import "react-big-scheduler/lib/css/style.css";
-import withDragDropContext from "./withDndContext";
 import moment from "moment";
-import DemoData from './DemoData';
+
+import withDragDropContext from "./components/WithDndContext";
+import DemoData from './components/DemoData';
 
 class Sched extends Component {
   constructor(props) {

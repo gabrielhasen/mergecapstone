@@ -1,9 +1,9 @@
 import React from 'react';
 import { Switch, Redirect, Route } from 'react-router-dom';
 
-import Dashboard from './Components/Dashboard/Dashboard';
-import SignInSide from './Components/Sign In/SignInSide';
-import Reservation from './Components/Reservation/Reservation';
+import Dashboard from './components/dashboard/Dashboard';
+import SignInSide from './components/signin/SignInSide';
+import Reservation from './components/reservation/Reservation';
 
 const Routes = () => {
     return (

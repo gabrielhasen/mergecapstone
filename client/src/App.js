@@ -1,4 +1,4 @@
-//import React from 'react';
+
 import React, { Component } from 'react';
 import { Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
@@ -6,7 +6,7 @@ import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 
 
 import Routes from './Routes';
-import muiTheme from './Themes/muiTheme';
+import muiTheme from './themes/MuiTheme';
 
 const browserHistory = createBrowserHistory();
 

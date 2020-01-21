@@ -3,8 +3,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import BuildIcon from '@material-ui/icons/Build';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 export const mainListItems = (
   <div>
@@ -13,26 +13,8 @@ export const mainListItems = (
       <ListItemIcon>
         <BuildIcon />
       </ListItemIcon>
-      <ListItemText primary="Book a Machine" />
+      <ListItemText primary="Reserve a Machine" />
     </ListItem>
-    {/* <ListItem button>
-      <ListItemIcon>
-        <BuildIcon />
-      </ListItemIcon>
-      <ListItemText primary="3D Printers" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <BuildIcon />
-      </ListItemIcon>
-      <ListItemText primary="Mills" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <BuildIcon />
-      </ListItemIcon>
-      <ListItemText primary="Lathes" />
-    </ListItem> */}
   </div>
 );
 
