@@ -27,6 +27,9 @@ const useStyles = makeStyles(theme => ({
     paddingBottom: theme.spacing(4),
     marginLeft: 5
   },
+  dropDown: {
+    justifyContent: 'flex-end'
+  },
 }));
 
 const Dashboard = props => {
@@ -55,9 +58,11 @@ const Dashboard = props => {
       <main className={classes.content}>
         {/* {children} */}
         <div className={classes.appBarSpacer} />
-        <Container maxWidth="xs" className={classes.container}>
-          <Grid container spacing={4}>
+        <Container maxWidth="lg" className={classes.container}>
+          <Grid className={classes.dropDown} container spacing={2}>
             <DropDown />
+          </Grid>
+          <Grid container spacing={4}>
             <Sched />
             <Button variant="contained" component="a" href="/reservation">Make Reservation</Button>
           </Grid>
