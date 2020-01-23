@@ -13,7 +13,7 @@ export const mainListItems = (
       <ListItemIcon>
         <BuildIcon />
       </ListItemIcon>
-      <ListItemText primary="Reserve a Machine" />
+      <ListItemText primary="Reservations" />
     </ListItem>
   </div>
 );

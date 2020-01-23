@@ -19,6 +19,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { mainListItems, secondaryListItems } from './components/ListItems';
 import Sched from '../scheduler/Sched';
 import DropDown from './components/DropDown';
+import Topbar from './components/Topbar';
 
 const drawerWidth = 240;
 
@@ -91,15 +92,6 @@ const useStyles = makeStyles(theme => ({
     paddingBottom: theme.spacing(4),
     marginLeft: 5
   },
-  paper: {
-    padding: theme.spacing(2),
-    display: 'flex',
-    overflow: 'auto',
-    flexDirection: 'column',
-  },
-  fixedHeight: {
-    height: 240,
-  },
 }));
 
 const Dashboard = props => {
@@ -113,14 +105,15 @@ const Dashboard = props => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
-    <div className={classes.root}>
+    <div className={clsx({
+      [classes.root]: true
+    })}>
       <CssBaseline /> 
 
       {/* Header */}
-      <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
+      {/* <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
         <Toolbar className={classes.toolbar}>
           <IconButton
             edge="start"
@@ -135,7 +128,8 @@ const Dashboard = props => {
             ME Department Machine Shop
           </Typography>
         </Toolbar>
-      </AppBar>
+      </AppBar> */}
+      <Topbar onDrawerOpen={handleDrawerOpen} isOpen={open} />
 
       {/* SideNav */}
       <Drawer
