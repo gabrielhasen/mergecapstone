@@ -7,7 +7,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 
-import Sched from '../../components/scheduler/Sched';
+import Sched from '../../component/calendar/Sched';
 import DropDown from './components/DropDown';
 import Topbar from './components/Topbar';
 import Sidebar from './components/Sidebar';

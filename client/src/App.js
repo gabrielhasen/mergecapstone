@@ -6,7 +6,7 @@ import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 
 
 import Routes from './Routes';
-import muiTheme from './themes/MuiTheme';
+import muiTheme from './theme/muiTheme';
 
 const browserHistory = createBrowserHistory();
 
