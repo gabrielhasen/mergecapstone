@@ -56,9 +56,8 @@ const Dashboard = props => {
 
       {/* Main Content */}
       <main className={classes.content}>
-        {/* {children} */}
         <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
+        {/* <Container maxWidth="lg" className={classes.container}>
           <Grid className={classes.dropDown} container spacing={2}>
             <DropDown />
           </Grid>
@@ -66,7 +65,8 @@ const Dashboard = props => {
             <Sched />
             <Button variant="contained" component="a" href="/reservation">Make Reservation</Button>
           </Grid>
-        </Container>
+        </Container> */}
+        {children}
       </main>
     </div>
   );

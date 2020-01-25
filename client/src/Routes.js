@@ -1,19 +1,41 @@
 import React from 'react';
 import { Switch, Redirect, Route } from 'react-router-dom';
 
-import Dashboard from './layouts/dashboard/Dashboard';
 import SignInSide from './views/signin/SignInSide';
 import Reservation from './views/reservation/Reservation';
+import RouteWithLayout from './component/routewithlayout/RouteWithLayout';
+import Dashboard from './layouts/dashboard/Dashboard';
+import Sched from './component/calendar/Sched';
+import Blank from './layouts/blank/Blank';
 
 const Routes = () => {
     return (
       <Switch>
-          <Route path="/home" component={Dashboard} />
-          <Route path="/login" component={SignInSide} />
-          <Route path="/reservation" component={Reservation} />
-          <Redirect from="/" to="home" />
+          <Redirect 
+          exact
+          from="/"
+          to="/home"
+          />
+          <RouteWithLayout 
+          component={Sched}
+          exact
+          layout={Dashboard}
+          path="/home"
+          />
+          <RouteWithLayout 
+          component={SignInSide}
+          exact
+          layout={Blank}
+          path="/login"
+          />
+          <RouteWithLayout 
+          component={Reservation}
+          exact
+          layout={Blank}
+          path="/reservation"
+          />
       </Switch>
     );
   };
   
-  export default Routes;
+export default Routes;
