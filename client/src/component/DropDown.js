@@ -48,9 +48,7 @@ export default function MultipleSelect() {
           value={machineName}
           onChange={handleChange}
         >
-          <MenuItem disabled value="">
-            <em>Machine Type</em>
-          </MenuItem>
+          <MenuItem  value="">All</MenuItem>
           {machines.map(name => (
             <MenuItem key={name} value={name} style={getStyles(name, machineName, theme)}>
               {name}
