@@ -7,12 +7,11 @@ import Scheduler, {
 } from "react-big-scheduler";
 import "react-big-scheduler/lib/css/style.css";
 import moment from "moment";
-import Button from '@material-ui/core/Button';
 
 import withDragDropContext from "./components/WithDndContext";
 import DemoData from './components/DemoData';
 
-class Sched extends Component {
+class ViewOnlyCalendar extends Component {
   constructor(props) {
     super(props);
 
@@ -27,8 +26,9 @@ class Sched extends Component {
         startResizable: false,
         endResizable: false,
         movable: false,
-        creatable: false,
+        creatable: true,
         schedulerWidth: '90%',
+        checkConflict: true,
         views : [
           {viewName: 'Day', viewType: ViewTypes.Day, showAgenda: false, isEventPerspective: false},
           {viewName: 'Week', viewType: ViewTypes.Week, showAgenda: false, isEventPerspective: false},
@@ -54,6 +54,11 @@ class Sched extends Component {
             nextClick={this.nextClick}
             onSelectDate={this.onSelectDate}
             onViewChange={this.onViewChange}
+            newEvent={this.newEvent}
+            onScrollLeft={this.onScrollLeft}
+            onScrollRight={this.onScrollRight}
+            onScrollTop={this.onScrollTop}
+            onScrollBottom={this.onScrollBottom}
             toggleExpandFunc={this.toggleExpandFunc}
           />
       </div>
@@ -96,12 +101,51 @@ class Sched extends Component {
     });
   };
 
-  toggleExpandFunc = (schedulerData, slotId) => {
-    schedulerData.toggleExpandStatus(slotId);
+  newEvent = (schedulerData, slotId, slotName, start, end, type, item) => {
+    if(schedulerData.viewType == 0) //Allows users to only create events in day view
+    {
+      if(window.confirm(`Do you want to create a new event? {slotId: ${slotId}, slotName: ${slotName}, start: ${start}, end: ${end}, type: ${type}, item: ${item}}`)) {
+        let newFreshId = 0;
+        schedulerData.events.forEach((item) => {
+          if(item.id >= newFreshId)
+          { newFreshId = item.id + 1; }
+        });
+  
+        let newEvent = {
+          id: newFreshId,
+          title: 'New Event',
+          start: start,
+          end: end,
+          resourceId: slotId,
+          bgColor: 'blue'
+        }
+        schedulerData.addEvent(newEvent);
+        this.setState({
+          viewModel: schedulerData
+        });
+      }
+    } 
+  };
+
+  onScrollRight = (schedulerData, schedulerContent, maxScrollLeft) => {
+    schedulerData.next();
+    schedulerData.setEvents(DemoData.events);
     this.setState({
       viewModel: schedulerData
     });
+
+    schedulerContent.scrollLeft = maxScrollLeft - 10;
+  };
+
+  onScrollLeft = (schedulerData, schedulerContent, maxScrollLeft) => {
+    schedulerData.prev();
+    schedulerData.setEvents(DemoData.events);
+    this.setState({
+      viewModel: schedulerData
+    });
+
+    schedulerContent.scrollLeft = 10;
   };
 }
 
-export default withDragDropContext(Sched);
+export default withDragDropContext(ViewOnlyCalendar);

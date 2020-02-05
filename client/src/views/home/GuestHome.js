@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 
 import Dashboard from '../../component/dashboard/Dashboard';
-import Sched from '../../component/calendar/Sched';
+import ViewOnlyCalendar from '../../component/calendar/ViewOnlyCalendar';
 import { mainListItems, secondaryListItems } from '../../layouts/guest/GuestRoutes';
 import DropDown from '../../component/DropDown';
 import { makeStyles, Grid } from '@material-ui/core';
@@ -31,7 +31,7 @@ const GuestHome = props => {
             <DropDown />
           </Grid>
         <Grid className={classes.calendar} container item xs={12}>
-            <Sched />
+            <ViewOnlyCalendar />
         </Grid>
       </Dashboard>
     );

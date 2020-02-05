@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 import Dashboard from '../../component/dashboard/Dashboard';
-import Sched from '../../component/calendar/Sched';
+import Calendar from '../../component/calendar/Calendar';
 import { mainListItems, secondaryListItems } from '../../layouts/admin/AdminRoutes';
 import DropDown from '../../component/DropDown';
 import { makeStyles, Grid } from '@material-ui/core';
@@ -35,7 +35,7 @@ const AdminHome = props => {
             <DropDown />
           </Grid>
         <Grid className={classes.calendar} container item xs={12}>
-            <Sched />
+            <Calendar />
         </Grid>
         <Grid className={classes.button} container item xs={12}>
             <Button variant="contained" component="a" href="/reservation">Make Reservation</Button>
