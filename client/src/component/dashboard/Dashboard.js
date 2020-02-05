@@ -7,10 +7,9 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 
-import Sched from '../../component/calendar/Sched';
-import DropDown from './components/DropDown';
-import Topbar from './components/Topbar';
-import Sidebar from './components/Sidebar';
+import Topbar from './Topbar';
+import Sidebar from './Sidebar';
+// import { mainListItems, secondaryListItems } from './components/ListItems';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -33,7 +32,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Dashboard = props => {
-  const { children } = props;
+  const { mainList, secondList, children } = props;
 
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -52,20 +51,10 @@ const Dashboard = props => {
 
       <Topbar onDrawerOpen={handleDrawerOpen} isOpen={open} />
 
-      <Sidebar onDrawerClose={handleDrawerClose} isOpen={open} />
+      <Sidebar onDrawerClose={handleDrawerClose} isOpen={open} main={mainList} second={secondList} />
 
-      {/* Main Content */}
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
-        {/* <Container maxWidth="lg" className={classes.container}>
-          <Grid className={classes.dropDown} container spacing={2}>
-            <DropDown />
-          </Grid>
-          <Grid container spacing={4}>
-            <Sched />
-            <Button variant="contained" component="a" href="/reservation">Make Reservation</Button>
-          </Grid>
-        </Container> */}
         {children}
       </main>
     </div>
@@ -73,6 +62,8 @@ const Dashboard = props => {
 };
 
 Dashboard.propTypes = {
+  mainList: PropTypes.any.isRequired,
+  secondList: PropTypes.any.isRequired,
   children: PropTypes.node
 };
 export default Dashboard;

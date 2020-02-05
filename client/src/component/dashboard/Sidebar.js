@@ -7,8 +7,9 @@ import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 import { makeStyles } from '@material-ui/core/styles';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import EventTwoToneIcon from '@material-ui/icons/EventTwoTone';
 
-import { mainListItems, secondaryListItems } from './ListItems';
+//import { secondaryListItems } from './GuestRoutes';
 
 const drawerWidth = 240;
 
@@ -43,7 +44,7 @@ const useStyles = makeStyles(theme => ({
   }));
 
   const Sidebar = props => {
-      const { className, onDrawerClose, isOpen, ...rest } = props;
+      const { className, onDrawerClose, isOpen, main, second,  ...rest } = props;
       const classes = useStyles();
 
       return(
@@ -60,16 +61,19 @@ const useStyles = makeStyles(theme => ({
                   </IconButton>
               </div>
               <Divider />
-              <List>{mainListItems}</List>
+              <List>{main}</List>
               <Divider />
-              <List>{secondaryListItems}</List>
+              <List>{second}</List>
           </Drawer>
       );
   };
 
   Sidebar.propTypes = {
       className: PropTypes.string,
-      onDrawerClose: PropTypes.func
+      onDrawerClose: PropTypes.func,
+      isOpen: PropTypes.bool,
+      main: PropTypes.any.isRequired,
+      second: PropTypes.any.isRequired,
   }
 
   export default Sidebar;

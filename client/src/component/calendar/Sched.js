@@ -7,6 +7,7 @@ import Scheduler, {
 } from "react-big-scheduler";
 import "react-big-scheduler/lib/css/style.css";
 import moment from "moment";
+import Button from '@material-ui/core/Button';
 
 import withDragDropContext from "./components/WithDndContext";
 import DemoData from './components/DemoData';
@@ -47,7 +48,6 @@ class Sched extends Component {
     const { viewModel } = this.state;
     return (
       <div>
-        <div>
           <Scheduler
             schedulerData={viewModel}
             prevClick={this.prevClick}
@@ -56,7 +56,6 @@ class Sched extends Component {
             onViewChange={this.onViewChange}
             toggleExpandFunc={this.toggleExpandFunc}
           />
-        </div>
       </div>
     );
   }

@@ -84,10 +84,29 @@ export default function SignInSide() {
               variant="contained"
               color="primary"
               className={classes.submit}
-              //CHANGE
-              href="/home"
+              href="/undergrad"
             >
-              Sign In
+              Undergrad
+            </Button>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              href="/graduate"
+            >
+              Graduate
+            </Button>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              href="/admin"
+            >
+              Admin
             </Button>
             <Box mt={5}>
             </Box>

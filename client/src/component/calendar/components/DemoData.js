@@ -20,8 +20,17 @@ const DemoData = {
     events: [
         {
             id: 10,
-            start: '2020-01-01 17:30:00',
-            end: '2020-01-01 23:30:00',
+            start: '2020-01-27 17:30:00',
+            end: '2020-01-27 23:30:00',
+            resourceId: 'r1',
+            title: 'Recurring tasks every week on Tuesday, Friday',
+            rrule: 'FREQ=WEEKLY;DTSTART=20171219T013000Z;BYDAY=TU,FR',
+            bgColor: '#c41d1d'
+        },
+        {
+            id: 10,
+            start: '2020-01-01 10:30:00',
+            end: '2020-01-01 22:30:00',
             resourceId: 'r1',
             title: 'Recurring tasks every week on Tuesday, Friday',
             rrule: 'FREQ=WEEKLY;DTSTART=20171219T013000Z;BYDAY=TU,FR',
