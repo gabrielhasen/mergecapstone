@@ -85,7 +85,7 @@ export default function Reservation() {
       <CssBaseline />
       <AppBar position="absolute" color="default" className={classes.appBar}>
         <Toolbar>
-        {/* <IconButton onClick={() => }>
+        {/* <IconButton >
             <ArrowBackIosIcon />
       </IconButton> */}
         </Toolbar>
@@ -106,10 +106,7 @@ export default function Reservation() {
             {activeStep === steps.length ? (
               <React.Fragment>
                 <Typography variant="h5" gutterBottom>
-                  Your resrvation is being processed.
-                </Typography>
-                <Typography variant="subtitle1">
-                  Your resrvation number is #2001539. We will email you as soon as your reservation is confirmed.
+                  Reservation Complete
                 </Typography>
               </React.Fragment>
             ) : (
