@@ -29,6 +29,7 @@ import ManageReservations from './components/admin/ManageReservations';
 import ManageMachines from './components/admin/ManageMachines';
 import ManageUsers from './components/admin/ManageUsers';
 import ManageBilling from './components/admin/ManageBilling';
+import ManageHours from './components/admin/ManageHours';
 
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
@@ -73,6 +74,7 @@ class App extends Component {
               <PrivateAdminRoute exact path="/manage-machines" component={ManageMachines} />
               <PrivateAdminRoute exact path="/manage-users" component={ManageUsers} />
               <PrivateAdminRoute exact path="/manage-billing" component={ManageBilling} />
+              <PrivateAdminRoute exact path="/manage-hours" component={ManageHours} />
             </Switch>
           </div>
         </Router>

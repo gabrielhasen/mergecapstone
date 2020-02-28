@@ -13,7 +13,7 @@ import Calendar from '../calendar/Calendar';
 import Button from '@material-ui/core/Button';
 
 import Menu from '../menu/Menu';
-import { mainListItems } from '../menu/routes/GradRoutes';
+import { mainListItems } from '../menu/routes/AdminRoutes';
 import { Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
@@ -35,7 +35,7 @@ const styles = theme => ({
 });
 
 
-class GradHours extends Component {
+class ManageHours extends Component {
 
     onLogoutClick = e => {
         e.preventDefault();
@@ -67,14 +67,11 @@ class GradHours extends Component {
                 <Menu mainList={mainListItems} secondList={logout}>
                     <Grid className={classes.dropdown} container item xs={12}>
                         <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-                            Schedule Shop Hours
+                            Manage Hours
                         </Typography>
                     </Grid>
                     <Grid className={classes.calendar} container item xs={12}>
                         <Calendar />
-                    </Grid>
-                    <Grid className={classes.button} container item xs={12}>
-                        <Button onClick={this.onSubmitClick} variant="contained">Schedule</Button>
                     </Grid>
                 </Menu>
             </MuiThemeProvider>
@@ -82,7 +79,7 @@ class GradHours extends Component {
     }
 }
 
-GradHours.propTypes = {
+ManageHours.propTypes = {
     classes: PropTypes.object.isRequired,
     logoutUser: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired
@@ -95,4 +92,4 @@ const mapStateToProps = state => ({
 export default compose(
     withStyles(styles),
     connect(mapStateToProps, { logoutUser })
-)(GradHours);
+)(ManageHours);

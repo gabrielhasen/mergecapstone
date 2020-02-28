@@ -82,6 +82,16 @@ class ManageMachines extends Component {
                             ]}
                             data={[
                                 { id: '01', machine: 'Machine Type', interval: '15' },
+                                { id: '02', machine: 'Machine Type', interval: '30' },
+                                { id: '03', machine: 'Machine Type', interval: '30' },
+                                { id: '04', machine: 'Machine Type', interval: '30' },
+                                { id: '05', machine: 'Machine Type', interval: '60' },
+                                { id: '06', machine: 'Machine Type', interval: '30' },
+                                { id: '07', machine: 'Machine Type', interval: '30' },
+                                { id: '08', machine: 'Machine Type', interval: '30' },
+                                { id: '09', machine: 'Machine Type', interval: '60' },
+                                { id: '10', machine: 'Machine Type', interval: '30' },
+                                { id: '11', machine: 'Machine Type', interval: '15' },
                             ]}
                             editable={{
                                 onRowAdd: newData =>

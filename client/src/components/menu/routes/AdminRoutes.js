@@ -7,6 +7,7 @@ import BuildIcon from '@material-ui/icons/Build';
 import EventTwoToneIcon from '@material-ui/icons/EventTwoTone';
 import PersonIcon from '@material-ui/icons/Person';
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
+import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 
 
 export const mainListItems = (
@@ -35,6 +36,12 @@ export const mainListItems = (
         <AccountBalanceIcon />
       </ListItemIcon>
       <ListItemText primary="Manage Billing Codes" />
+    </ListItem>
+    <ListItem button component="a" href="/manage-hours">
+      <ListItemIcon>
+        <AssignmentIndIcon />
+      </ListItemIcon>
+      <ListItemText primary="Manage Hours" />
     </ListItem>
   </div>
 );
