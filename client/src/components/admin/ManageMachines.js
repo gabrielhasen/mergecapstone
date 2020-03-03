@@ -64,7 +64,7 @@ class ManageMachines extends Component {
             }
         })
             .then(res => {
-                this.setState({data: res.data })
+                this.setState({ data: res.data })
                 console.log(this.state.data)
             })
             .catch(function (error) {

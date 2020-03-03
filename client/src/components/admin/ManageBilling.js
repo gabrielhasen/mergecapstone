@@ -24,6 +24,7 @@ import FirstPage from '@material-ui/icons/FirstPage';
 import LastPage from '@material-ui/icons/LastPage';
 import DeleteOutline from '@material-ui/icons/DeleteOutline';
 import muiTheme from '../../theme/muiTheme';
+import axios from "axios";
 
 const tableIcons = {
     //DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
@@ -43,6 +44,32 @@ const styles = theme => ({
 
 
 class ManageBilling extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            columns: [
+                { title: 'Billing Code', field: 'code' },
+                { title: 'Description', field: 'desc' },
+            ],
+            data: []
+        };
+    }
+
+    componentDidMount() {
+        axios.get('http://localhost:5000/api/billingcodes/getCodes', {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(res => {
+                this.setState({ data: res.data })
+                console.log(this.state.data)
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+    }
 
     onLogoutClick = e => {
         e.preventDefault();
@@ -75,13 +102,8 @@ class ManageBilling extends Component {
                         <MaterialTable
                             icons={tableIcons}
                             title="Valid Billing Codes"
-                            columns={[
-                                { title: 'Billing Code', field: 'code' },
-                                { title: 'Description', field: 'descr' },
-                            ]}
-                            data={[
-                                { code: '00235', descr: '' },
-                            ]}
+                            columns={this.state.columns}
+                            data={this.state.data}
                             editable={{
                                 onRowAdd: newData =>
                                     new Promise((resolve, reject) => {

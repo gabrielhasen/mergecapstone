@@ -6,6 +6,7 @@ const cors = require("cors");   //Temporary solution for the Control Allow Acces
 
 const users = require("./routes/api/users");
 const machines = require("./routes/api/machines");
+const billingcodes = require("./routes/api/billingcodes");
 
 const app = express();
 
@@ -40,6 +41,7 @@ require("./config/passport")(passport);
 // Routes
 app.use("/api/users", users);
 app.use("/api/machines", machines);
+app.use("/api/billingcodes", billingcodes);
 
 const port = process.env.PORT || 5000;
 
