@@ -42,13 +42,27 @@ const styles = theme => ({
     },
 });
 
-
+export const updateRole = (data) =>{
+    axios
+      .post("/api/users/updateRole", data)
+    //   .then(res => history.push("/login"))
+      .catch(function (error) {
+        console.log(error);
+    });
+  };
 
 class ManageUsers extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { userCollection: [] };
+        this.state = {
+            columns: [
+                { title: 'Name', field: 'name', editable: 'never' },
+                { title: 'E-mail', field: 'email', editable: 'never' },
+                { title: 'Role', field: 'role', editable: 'onUpdate', lookup: { undergrad: 'Undergraduate', grad: 'Graduate', admin: 'Administrator' } },
+            ],
+            data: []
+        };
     }
 
     //Use to Secure maybe?
@@ -59,8 +73,8 @@ class ManageUsers extends Component {
             }
         })
             .then(res => {
-                console.log(res.data);
-                this.setState({ userCollection: res.data });
+                this.setState({data: res.data.user})
+                console.log(this.state.data)
             })
             .catch(function (error) {
                 console.log(error);
@@ -75,6 +89,7 @@ class ManageUsers extends Component {
 
     render() {
         const { classes } = this.props;
+        //console.log(this.state.data.user)
 
         const logout = (
             <div>
@@ -98,42 +113,27 @@ class ManageUsers extends Component {
                     <Grid className={classes.dropdown} item xs={12}>
                         <MaterialTable
                             title="All Users"
-                            columns={[
-                                { title: 'Name', field: 'name', editable: 'never' },
-                                { title: 'E-mail', field: 'email', editable: 'never' },
-                                { title: 'Role', field: 'role', editable: 'onUpdate', lookup: { undergrad: 'Undergraduate', grad: 'Graduate', admin: 'Administrator' } },
-                            ]}
-                            data={query =>
-                                new Promise((resolve, reject) => {
-                                    let url = 'http://localhost:5000/api/users/getUsers'
-                                    fetch(url)
-                                        .then(response => response.json())
-                                        .then(result => {
-                                            console.log(result)
-                                            resolve({
-                                                data: result.user,
-                                            })
-                                        })
-                                })
-                            }
-                        editable={{
-                            onRowUpdate: (newData, oldData) =>
-                                new Promise((resolve, reject) => {
-                                    setTimeout(() => {
-                                        {
-                                            const data = this.state.data;
-                                            const index = data.indexOf(oldData);
-                                            data[index] = newData;
-                                            this.setState({ data }, () => resolve());
-                                        }
-                                        resolve()
-                                    }, 1000)
-                                }),
-                        }}
-                        options={{
-                            exportButton: false,
-                            search: true,
-                        }}
+                            columns={this.state.columns}
+                            data={this.state.data}
+                            editable={{
+                                onRowUpdate: (newData, oldData) =>
+                                    new Promise((resolve, reject) => {
+                                        setTimeout(() => {
+                                            {
+                                                const data = this.state.data;
+                                                const index = data.indexOf(oldData);
+                                                data[index] = newData;
+                                                console.log(newData)
+                                                this.setState({ data }, () => resolve());
+                                            }
+                                            resolve()
+                                        }, 1000)
+                                    }),
+                            }}
+                            options={{
+                                exportButton: false,
+                                search: true,
+                            }}
                         />
                     </Grid>
                 </Menu>

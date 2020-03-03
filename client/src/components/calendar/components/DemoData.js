@@ -37,17 +37,6 @@ const DemoData = {
             bgColor: '#c41d1d'
         },
     ],
-    eventsForTaskView: [
-        {
-            id: 10,
-            start: '2017-12-26 18:30:00',
-            end: '2017-12-26 23:30:00',
-            resourceId: 'r2',
-            title: 'R2 has many tasks',
-            groupId: 4,
-            groupName: 'Task4'
-        },
-    ],
 }
 
 export default DemoData

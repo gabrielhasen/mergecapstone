@@ -121,4 +121,10 @@ router.get("/getUsers", (req, res) => {
   });
 });
 
+// router.post("/updateRole", (req, res) => {
+//   User.findOne({_id: req.body._id}, {
+//     role: 
+//   })
+// });
+
 module.exports = router;

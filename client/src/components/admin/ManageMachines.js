@@ -24,6 +24,7 @@ import FirstPage from '@material-ui/icons/FirstPage';
 import LastPage from '@material-ui/icons/LastPage';
 import DeleteOutline from '@material-ui/icons/DeleteOutline';
 import muiTheme from '../../theme/muiTheme';
+import axios from "axios";
 
 const tableIcons = {
     //DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
@@ -43,6 +44,33 @@ const styles = theme => ({
 
 
 class ManageMachines extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            columns: [
+                { title: 'ID', field: 'id' },
+                { title: 'Machine', field: 'name' },
+                // { title: 'Interval', field: 'interval' },
+            ],
+            data: []
+        };
+    }
+
+    componentDidMount() {
+        axios.get('http://localhost:5000/api/machines/getAll', {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(res => {
+                this.setState({data: res.data })
+                console.log(this.state.data)
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+    }
 
     onLogoutClick = e => {
         e.preventDefault();
@@ -75,24 +103,8 @@ class ManageMachines extends Component {
                         <MaterialTable
                             icons={tableIcons}
                             title="Machines"
-                            columns={[
-                                { title: 'ID', field: 'id' },
-                                { title: 'Machine', field: 'machine' },
-                                { title: 'Interval', field: 'interval' },
-                            ]}
-                            data={[
-                                { id: '01', machine: 'Machine Type', interval: '15' },
-                                { id: '02', machine: 'Machine Type', interval: '30' },
-                                { id: '03', machine: 'Machine Type', interval: '30' },
-                                { id: '04', machine: 'Machine Type', interval: '30' },
-                                { id: '05', machine: 'Machine Type', interval: '60' },
-                                { id: '06', machine: 'Machine Type', interval: '30' },
-                                { id: '07', machine: 'Machine Type', interval: '30' },
-                                { id: '08', machine: 'Machine Type', interval: '30' },
-                                { id: '09', machine: 'Machine Type', interval: '60' },
-                                { id: '10', machine: 'Machine Type', interval: '30' },
-                                { id: '11', machine: 'Machine Type', interval: '15' },
-                            ]}
+                            columns={this.state.columns}
+                            data={this.state.data}
                             editable={{
                                 onRowAdd: newData =>
                                     new Promise((resolve, reject) => {

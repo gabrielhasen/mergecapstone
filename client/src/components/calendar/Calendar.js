@@ -10,7 +10,7 @@ import moment from "moment";
 import withDragDropContext from "./components/WithDndContext";
 import DemoData from './components/DemoData';
 
-class ViewOnlyCalendar extends Component {
+class Calendar extends Component {
   constructor(props) {
     super(props);
 
@@ -103,7 +103,8 @@ class ViewOnlyCalendar extends Component {
   newEvent = (schedulerData, slotId, slotName, start, end, type, item) => {
     if(schedulerData.viewType === 0) //Allows users to only create events in day view
     {
-      if(window.confirm(`Do you want to create a new event? {slotId: ${slotId}, slotName: ${slotName}, start: ${start}, end: ${end}, type: ${type}, item: ${item}}`)) {
+      // if(window.confirm(`Do you want to create a new event? {slotId: ${slotId}, slotName: ${slotName}, start: ${start}, end: ${end}, type: ${type}, item: ${item}}`)) {
+        if(window.confirm(`Create reservation for ${slotName} from ${start} to ${end}?`)) {
         let newFreshId = 0;
         schedulerData.events.forEach((item) => {
           if(item.id >= newFreshId)
@@ -147,4 +148,4 @@ class ViewOnlyCalendar extends Component {
   };
 }
 
-export default withDragDropContext(ViewOnlyCalendar);
+export default withDragDropContext(Calendar);
