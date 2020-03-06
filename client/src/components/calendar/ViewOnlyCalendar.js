@@ -9,6 +9,7 @@ import moment from "moment";
 
 import withDragDropContext from "./components/WithDndContext";
 import DemoData from './components/DemoData';
+import axios from "axios";
 
 class ViewOnlyCalendar extends Component {
   constructor(props) {
@@ -38,8 +39,24 @@ class ViewOnlyCalendar extends Component {
     schedulerData.setResources(DemoData.resources);
     schedulerData.setEvents(DemoData.events);
     this.state = {
-      viewModel: schedulerData
+      viewModel: schedulerData,
+      resources: []
     };
+  }
+
+  componentDidMount() {
+    axios.get('http://localhost:5000/api/machines/getAll', {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+    })
+      .then(res =>{
+        this.setState({ resources: res.data })
+        console.log(this.state.resources)
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
   }
 
   render() {
