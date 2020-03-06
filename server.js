@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require('path');
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const passport = require("passport");
@@ -7,6 +8,7 @@ const cors = require("cors");   //Temporary solution for the Control Allow Acces
 const users = require("./routes/api/users");
 const machines = require("./routes/api/machines");
 const billingcodes = require("./routes/api/billingcodes");
+const reservations = require("./routes/api/reservations");
 
 const app = express();
 
@@ -20,7 +22,7 @@ app.use(
 );
 app.use(bodyParser.json());
 
-// DB Config
+// DB Config 
 const db = require("./config/keys").mongoURI;
 
 // Connect to MongoDB
@@ -42,6 +44,13 @@ require("./config/passport")(passport);
 app.use("/api/users", users);
 app.use("/api/machines", machines);
 app.use("/api/billingcodes", billingcodes);
+app.use("/api/reservations", reservations);
+
+app.use(express.static("client/build"));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+});
 
 const port = process.env.PORT || 5000;
 
