@@ -4,6 +4,7 @@ import { compose } from 'redux';
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "../../actions/authActions";
+import { getUsers } from '../../actions/userActions';
 import Typography from '@material-ui/core/Typography';
 
 import ListItem from '@material-ui/core/ListItem';
@@ -42,14 +43,14 @@ const styles = theme => ({
     },
 });
 
-export const updateRole = (data) =>{
-    axios
-      .post("/api/users/updateRole", data)
-    //   .then(res => history.push("/login"))
-      .catch(function (error) {
-        console.log(error);
-    });
-  };
+// export const updateRole = (data) =>{
+//     axios
+//       .post("/api/users/updateRole", data)
+//     //   .then(res => history.push("/login"))
+//       .catch(function (error) {
+//         console.log(error);
+//     });
+//   };
 
 class ManageUsers extends Component {
 
@@ -60,26 +61,29 @@ class ManageUsers extends Component {
                 { title: 'Name', field: 'name', editable: 'never' },
                 { title: 'E-mail', field: 'email', editable: 'never' },
                 { title: 'Role', field: 'role', editable: 'onUpdate', lookup: { undergrad: 'Undergraduate', grad: 'Graduate', admin: 'Administrator' } },
-            ],
-            data: []
+            ]
         };
     }
 
-    //Use to Secure maybe?
     componentDidMount() {
-        axios.get('http://localhost:5000/api/users/getUsers', {
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        })
-            .then(res => {
-                this.setState({data: res.data.user})
-                console.log(this.state.data)
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
+        this.props.getUsers();
     }
+
+    //Use to Secure maybe?
+    // componentDidMount() {
+    //     axios.get('http://localhost:5000/api/users/getUsers', {
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         }
+    //     })
+    //         .then(res => {
+    //             this.setState({data: res.data.user})
+    //             console.log(this.state.data)
+    //         })
+    //         .catch(function (error) {
+    //             console.log(error);
+    //         })
+    // }
 
     onLogoutClick = e => {
         e.preventDefault();
@@ -89,6 +93,7 @@ class ManageUsers extends Component {
 
     render() {
         const { classes } = this.props;
+        const { users, getUsers } = this.props.users;
         //console.log(this.state.data.user)
 
         const logout = (
@@ -114,7 +119,8 @@ class ManageUsers extends Component {
                         <MaterialTable
                             title="All Users"
                             columns={this.state.columns}
-                            data={this.state.data}
+                            //data={this.state.data}
+                            data={users}
                             editable={{
                                 onRowUpdate: (newData, oldData) =>
                                     new Promise((resolve, reject) => {
@@ -149,10 +155,11 @@ ManageUsers.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    auth: state.auth
+    auth: state.auth,
+    users: state.users
 });
 
 export default compose(
     withStyles(styles),
-    connect(mapStateToProps, { logoutUser })
+    connect(mapStateToProps, { logoutUser, getUsers })
 )(ManageUsers);

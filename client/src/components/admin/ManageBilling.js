@@ -4,6 +4,7 @@ import { compose } from 'redux';
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "../../actions/authActions";
+import { getCodes } from '../../actions/billingActions';
 import Typography from '@material-ui/core/Typography';
 
 import ListItem from '@material-ui/core/ListItem';
@@ -51,24 +52,12 @@ class ManageBilling extends Component {
             columns: [
                 { title: 'Billing Code', field: 'code' },
                 { title: 'Description', field: 'desc' },
-            ],
-            data: []
+            ]
         };
     }
 
     componentDidMount() {
-        axios.get('http://localhost:5000/api/billingcodes/getCodes', {
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        })
-            .then(res => {
-                this.setState({ data: res.data })
-                console.log(this.state.data)
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
+        this.props.getCodes();
     }
 
     onLogoutClick = e => {
@@ -78,6 +67,7 @@ class ManageBilling extends Component {
 
     render() {
         const { classes } = this.props;
+        const { codes, getCodes } = this.props.codes;
 
         const logout = (
             <div>
@@ -103,32 +93,32 @@ class ManageBilling extends Component {
                             icons={tableIcons}
                             title="Valid Billing Codes"
                             columns={this.state.columns}
-                            data={this.state.data}
-                            editable={{
-                                onRowAdd: newData =>
-                                    new Promise((resolve, reject) => {
-                                        setTimeout(() => {
-                                            {
-                                                const data = this.state.data;
-                                                data.push(newData);
-                                                this.setState({ data }, () => resolve());
-                                            }
-                                            resolve()
-                                        }, 1000)
-                                    }),
-                                onRowDelete: oldData =>
-                                    new Promise((resolve, reject) => {
-                                        setTimeout(() => {
-                                            {
-                                                let data = this.state.data;
-                                                const index = data.indexOf(oldData);
-                                                data.splice(index, 1);
-                                                this.setState({ data }, () => resolve());
-                                            }
-                                            resolve()
-                                        }, 1000)
-                                    }),
-                            }}
+                            data={codes}
+                            // editable={{
+                            //     onRowAdd: newData =>
+                            //         new Promise((resolve, reject) => {
+                            //             setTimeout(() => {
+                            //                 {
+                            //                     const data = this.state.data;
+                            //                     data.push(newData);
+                            //                     this.setState({ data }, () => resolve());
+                            //                 }
+                            //                 resolve()
+                            //             }, 1000)
+                            //         }),
+                            //     onRowDelete: oldData =>
+                            //         new Promise((resolve, reject) => {
+                            //             setTimeout(() => {
+                            //                 {
+                            //                     let data = this.state.data;
+                            //                     const index = data.indexOf(oldData);
+                            //                     data.splice(index, 1);
+                            //                     this.setState({ data }, () => resolve());
+                            //                 }
+                            //                 resolve()
+                            //             }, 1000)
+                            //         }),
+                            // }}
                             options={{
                                 exportButton: false,
                                 search: true
@@ -148,10 +138,11 @@ ManageBilling.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    auth: state.auth
+    auth: state.auth,
+    codes: state.codes
 });
 
 export default compose(
     withStyles(styles),
-    connect(mapStateToProps, { logoutUser })
+    connect(mapStateToProps, { logoutUser, getCodes })
 )(ManageBilling);
