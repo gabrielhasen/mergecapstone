@@ -6,7 +6,7 @@ import { GET_CODES, CODES_LOADING, DELETE_CODE } from './types';
 export const getCodes = () => dispatch => {
     dispatch(setCodesLoading());
     axios   
-        .get('http://localhost:5000/api/billingcodes/getCodes')
+        .get('/api/billingcodes/getCodes')
         .then(res =>
             dispatch({
                 type: GET_CODES,

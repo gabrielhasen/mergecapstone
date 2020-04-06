@@ -6,7 +6,7 @@ import { GET_USERS, USERS_LOADING } from './types';
 export const getUsers = () => dispatch => {
     dispatch(getUsersLoading());
     axios   
-        .get('http://localhost:5000/api/users/getUsers')
+        .get('/api/users/getUsers')
         .then(res =>
             dispatch({
                 type: GET_USERS,

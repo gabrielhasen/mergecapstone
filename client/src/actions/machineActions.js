@@ -6,7 +6,7 @@ import { GET_MACHINES, MACHINES_LOADING } from '../actions/types';
 export const getMachines = () => dispatch => {
     dispatch(getMachinesLoading());
     axios   
-        .get('http://localhost:5000/api/machines/getAll')
+        .get('/api/machines/getAll')
         .then(res =>
             dispatch({
                 type: GET_MACHINES,
