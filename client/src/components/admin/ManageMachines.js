@@ -4,6 +4,7 @@ import { compose } from 'redux';
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "../../actions/authActions";
+import { getMachines } from '../../actions/machineActions';
 import Typography from '@material-ui/core/Typography';
 
 import ListItem from '@material-ui/core/ListItem';
@@ -53,24 +54,28 @@ class ManageMachines extends Component {
                 { title: 'Machine', field: 'name' },
                 // { title: 'Interval', field: 'interval' },
             ],
-            data: []
+            //data: []
         };
     }
 
     componentDidMount() {
-        axios.get('http://localhost:5000/api/machines/getAll', {
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        })
-            .then(res => {
-                this.setState({ data: res.data })
-                console.log(this.state.data)
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
+        this.props.getMachines();
     }
+
+    // componentDidMount() {
+    //     axios.get('http://localhost:5000/api/machines/getAll', {
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         }
+    //     })
+    //         .then(res => {
+    //             this.setState({ data: res.data })
+    //             console.log(this.state.data)
+    //         })
+    //         .catch(function (error) {
+    //             console.log(error);
+    //         })
+    // }
 
     onLogoutClick = e => {
         e.preventDefault();
@@ -79,6 +84,7 @@ class ManageMachines extends Component {
 
     render() {
         const { classes } = this.props;
+        const { machines, getMachines } = this.props.machines;
 
         const logout = (
             <div>
@@ -104,44 +110,45 @@ class ManageMachines extends Component {
                             icons={tableIcons}
                             title="Machines"
                             columns={this.state.columns}
-                            data={this.state.data}
-                            editable={{
-                                onRowAdd: newData =>
-                                    new Promise((resolve, reject) => {
-                                        setTimeout(() => {
-                                            {
-                                                const data = this.state.data;
-                                                data.push(newData);
-                                                this.setState({ data }, () => resolve());
-                                            }
-                                            resolve()
-                                        }, 1000)
-                                    }),
-                                onRowUpdate: (newData, oldData) =>
-                                    new Promise((resolve, reject) => {
-                                        setTimeout(() => {
-                                            {
-                                                const data = this.state.data;
-                                                const index = data.indexOf(oldData);
-                                                data[index] = newData;
-                                                this.setState({ data }, () => resolve());
-                                            }
-                                            resolve()
-                                        }, 1000)
-                                    }),
-                                onRowDelete: oldData =>
-                                    new Promise((resolve, reject) => {
-                                        setTimeout(() => {
-                                            {
-                                                let data = this.state.data;
-                                                const index = data.indexOf(oldData);
-                                                data.splice(index, 1);
-                                                this.setState({ data }, () => resolve());
-                                            }
-                                            resolve()
-                                        }, 1000)
-                                    }),
-                            }}
+                            //data={this.state.data}
+                            data={machines}
+                            // editable={{
+                            //     onRowAdd: newData =>
+                            //         new Promise((resolve, reject) => {
+                            //             setTimeout(() => {
+                            //                 {
+                            //                     const data = this.state.data;
+                            //                     data.push(newData);
+                            //                     this.setState({ data }, () => resolve());
+                            //                 }
+                            //                 resolve()
+                            //             }, 1000)
+                            //         }),
+                            //     onRowUpdate: (newData, oldData) =>
+                            //         new Promise((resolve, reject) => {
+                            //             setTimeout(() => {
+                            //                 {
+                            //                     const data = this.state.data;
+                            //                     const index = data.indexOf(oldData);
+                            //                     data[index] = newData;
+                            //                     this.setState({ data }, () => resolve());
+                            //                 }
+                            //                 resolve()
+                            //             }, 1000)
+                            //         }),
+                            //     onRowDelete: oldData =>
+                            //         new Promise((resolve, reject) => {
+                            //             setTimeout(() => {
+                            //                 {
+                            //                     let data = this.state.data;
+                            //                     const index = data.indexOf(oldData);
+                            //                     data.splice(index, 1);
+                            //                     this.setState({ data }, () => resolve());
+                            //                 }
+                            //                 resolve()
+                            //             }, 1000)
+                            //         }),
+                            // }}
                             options={{
                                 exportButton: false,
                                 search: true
@@ -161,10 +168,11 @@ ManageMachines.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    auth: state.auth
+    auth: state.auth,
+    machines: state.machines
 });
 
 export default compose(
     withStyles(styles),
-    connect(mapStateToProps, { logoutUser })
+    connect(mapStateToProps, { logoutUser, getMachines })
 )(ManageMachines);
