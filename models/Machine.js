@@ -9,7 +9,7 @@ const MachineSchema = new Schema({
   },
   name: {
     type: String,
-    required: true
+    default: ''
   },
 });
 
