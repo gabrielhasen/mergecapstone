@@ -121,10 +121,21 @@ router.get("/getUsers", (req, res) => {
   });
 });
 
-// router.post("/updateRole", (req, res) => {
-//   User.findOne({_id: req.body._id}, {
-//     role: 
-//   })
-// });
+router.patch("/update", (req, res) => {
+  let userFields = {};
+
+  userFields.role = req.body.role;
+
+  User.findOneAndUpdate(
+    { _id: req.body._id },
+    { $set: userFields },
+    { new: true }
+  )
+  .then(user => {
+    res.json(user);
+  })
+  .catch(err => console.log(err));
+}
+);
 
 module.exports = router;

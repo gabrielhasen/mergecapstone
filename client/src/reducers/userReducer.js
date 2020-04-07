@@ -1,4 +1,4 @@
-import { GET_USERS, USERS_LOADING } from '../actions/types';
+import { GET_USERS, USERS_LOADING, UPDATE_USER } from '../actions/types';
 
 const initialState = {
     users: [],
@@ -15,7 +15,20 @@ export default function(state = initialState, action)
                 users: action.payload,
                 usersLoading: false
             };
-        
+
+        case UPDATE_USER:
+            console.log(action.payload._id)
+            let index = state.users.findIndex(
+                user => user._id === action.payload._id
+            );
+
+            state.users.splice(index, 1);
+
+            return{
+                ...state,
+                users: [action.payload, ...state.users]
+            };
+
         case USERS_LOADING:
             return {
                 ...state,

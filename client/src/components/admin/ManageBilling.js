@@ -99,9 +99,6 @@ class ManageBilling extends Component {
                                     new Promise((resolve, reject) => {
                                         setTimeout(() => {
                                             {
-                                                // const data = this.state.data;
-                                                // data.push(newData);
-                                                // this.setState({ data }, () => resolve());
                                                 console.log(newData)
                                                 this.props.createCode(newData);
                                             }
@@ -112,10 +109,6 @@ class ManageBilling extends Component {
                                     new Promise((resolve, reject) => {
                                         setTimeout(() => {
                                             {
-                                                // let data = this.state.data;
-                                                // const index = data.indexOf(oldData);
-                                                // data.splice(index, 1);
-                                                // this.setState({ data }, () => resolve());
                                                 console.log(oldData._id)
                                                 this.props.deleteCode(oldData._id)
                                             }

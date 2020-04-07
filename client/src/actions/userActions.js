@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { GET_USERS, USERS_LOADING } from './types';
+import { GET_USERS, UPDATE_USER, USERS_LOADING } from './types';
 
 //Get all Users
 export const getUsers = () => dispatch => {
@@ -19,6 +19,19 @@ export const getUsers = () => dispatch => {
                 payload: null
             })
         );
+};
+
+export const updateUser = userData => dispatch => {
+    console.log(userData)
+    axios
+        .patch("api/users/update", userData)
+        .then(res => 
+            dispatch({
+                type: UPDATE_USER,
+                payload: res.data
+            })
+        )
+        .catch(err => console.log(err));
 };
 
 //Get users loading

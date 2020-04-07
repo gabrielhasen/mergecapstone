@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "../../actions/authActions";
-import { getUsers } from '../../actions/userActions';
+import { getUsers, updateUser } from '../../actions/userActions';
 import Typography from '@material-ui/core/Typography';
 
 import ListItem from '@material-ui/core/ListItem';
@@ -43,15 +43,6 @@ const styles = theme => ({
     },
 });
 
-// export const updateRole = (data) =>{
-//     axios
-//       .post("/api/users/updateRole", data)
-//     //   .then(res => history.push("/login"))
-//       .catch(function (error) {
-//         console.log(error);
-//     });
-//   };
-
 class ManageUsers extends Component {
 
     constructor(props) {
@@ -68,22 +59,6 @@ class ManageUsers extends Component {
     componentDidMount() {
         this.props.getUsers();
     }
-
-    //Use to Secure maybe?
-    // componentDidMount() {
-    //     axios.get('http://localhost:5000/api/users/getUsers', {
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         }
-    //     })
-    //         .then(res => {
-    //             this.setState({data: res.data.user})
-    //             console.log(this.state.data)
-    //         })
-    //         .catch(function (error) {
-    //             console.log(error);
-    //         })
-    // }
 
     onLogoutClick = e => {
         e.preventDefault();
@@ -119,18 +94,17 @@ class ManageUsers extends Component {
                         <MaterialTable
                             title="All Users"
                             columns={this.state.columns}
-                            //data={this.state.data}
                             data={users}
                             editable={{
                                 onRowUpdate: (newData, oldData) =>
                                     new Promise((resolve, reject) => {
                                         setTimeout(() => {
                                             {
-                                                const data = this.state.data;
-                                                const index = data.indexOf(oldData);
-                                                data[index] = newData;
-                                                console.log(newData)
-                                                this.setState({ data }, () => resolve());
+                                                // const data = this.state.data;
+                                                // const index = data.indexOf(oldData);
+                                                // data[index] = newData;
+                                                //console.log(newData._id);
+                                                this.props.updateUser(newData);
                                             }
                                             resolve()
                                         }, 1000)
@@ -161,5 +135,5 @@ const mapStateToProps = state => ({
 
 export default compose(
     withStyles(styles),
-    connect(mapStateToProps, { logoutUser, getUsers })
+    connect(mapStateToProps, { logoutUser, getUsers, updateUser })
 )(ManageUsers);
