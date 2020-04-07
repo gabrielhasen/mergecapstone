@@ -26,4 +26,11 @@ router.post("/newCode", (req, res) => {
     });
 });
 
+router.delete("/delete/:id", (req, res) => {
+    BillingCode.findById(req.params.id).then(code => {
+        code.remove().then(() => res.json({success: true}));
+    });
+}
+);
+
 module.exports = router;

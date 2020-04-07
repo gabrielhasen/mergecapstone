@@ -1,4 +1,4 @@
-import { GET_CODES, CODES_LOADING, DELETE_CODE } from '../actions/types';
+import { GET_CODES, CODES_LOADING, DELETE_CODE, CREATE_CODE } from '../actions/types';
 
 const initialState = {
     codes: [],
@@ -29,6 +29,12 @@ export default function(state = initialState, action)
                 ...state,
                 codesLoading: true
             };
+
+        case CREATE_CODE:
+            return {
+                ...state,
+                codes: [action.payload, ...state.codes]
+            }
 
         default:
             return state;
