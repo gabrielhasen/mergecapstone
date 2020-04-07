@@ -27,4 +27,27 @@ router.post("/newMachine", (req, res) => {
     });
   });
 
+router.patch("/update", (req, res) => {
+  let machineFields = {};
+
+  machineFields.id = req.body.id;
+  machineFields.name = req.body.name;
+
+  Machine.findOneAndUpdate(
+    { _id: req.body._id },
+    { $set: machineFields },
+    { new: true }
+  )
+  .then(machine => {
+    res.json(machine);
+  })
+  .catch(err => console.log(err));
+});
+
+router.delete("/delete/:id", (req, res) => {
+  Machine.findById(req.params.id).then(machine => {
+    machine.remove().then(() => res.json({success: true}));
+  });
+});
+
 module.exports = router;

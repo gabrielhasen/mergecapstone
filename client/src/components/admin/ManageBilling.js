@@ -99,7 +99,6 @@ class ManageBilling extends Component {
                                     new Promise((resolve, reject) => {
                                         setTimeout(() => {
                                             {
-                                                console.log(newData)
                                                 this.props.createCode(newData);
                                             }
                                             resolve()
@@ -109,7 +108,6 @@ class ManageBilling extends Component {
                                     new Promise((resolve, reject) => {
                                         setTimeout(() => {
                                             {
-                                                console.log(oldData._id)
                                                 this.props.deleteCode(oldData._id)
                                             }
                                             resolve()
