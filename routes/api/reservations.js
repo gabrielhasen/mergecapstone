@@ -7,7 +7,10 @@ const Reservation = require("../../models/Reservation");
 // @desc Get all reservations
 // @access at the moment - public
 router.get("/getRes", (req, res) => {
-    Reservation.find({}).then(reservations => res.json(reservations));
+    Reservation.find({})
+    .populate("user")
+    .populate("billingCode")
+    .then(reservations => res.json(reservations));
 }
 );
 
@@ -18,10 +21,12 @@ router.post("/newReservation", (req, res) => {
             return res.status(400).json({ id: "Reservation id already exists" });
         } else {
             const newReservation = new Reservation({
+                user: req.body.user,
                 id: req.body.id,
                 start: req.body.start,
                 end: req.body.end,
                 resourceId: req.body.resourceId,
+                billingCode: req.body.billingCode
             });
 
             newReservation.save().then(reservation => res.json(reservation));

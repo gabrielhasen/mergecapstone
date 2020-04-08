@@ -4,7 +4,9 @@ import { compose } from 'redux';
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "../../actions/authActions";
+import { getAllReservations } from "../../actions/reservationActions";
 import Typography from '@material-ui/core/Typography';
+import moment from 'moment';
 
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -44,6 +46,23 @@ const styles = theme => ({
 
 class ManageReservations extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            columns: [
+                { title: 'Start Date', field: 'start' },
+                { title: 'End Date', field: 'end' },
+                { title: 'User', field: 'user.name' },
+                { title: 'Machine ID', field: 'resourceId' },
+                { title: 'Billing Code', field: 'billingCode.code' },
+            ]
+        }
+    }
+
+    componentDidMount() {
+        this.props.getAllReservations();
+    }
+
     onLogoutClick = e => {
         e.preventDefault();
         this.props.logoutUser();
@@ -51,6 +70,15 @@ class ManageReservations extends Component {
 
     render() {
         const { classes } = this.props;
+        const { reservations, getAllReservations } = this.props.reservations;
+
+        
+
+        if(moment(reservations.start).isAfter(moment().format("YYYY-MM-DD HH:mm:ss")))
+        {console.log(reservations);}
+
+        // if(moment(reservations.start).isBefore(moment().format("YYYY-MM-DD HH:mm:ss")))
+        // {console.log(reservations);}
 
         const logout = (
             <div>
@@ -75,15 +103,8 @@ class ManageReservations extends Component {
                         <MaterialTable
                             icons={tableIcons}
                             title="Upcoming Reservations"
-                            columns={[
-                                { title: 'Date', field: 'date' },
-                                { title: 'User', field: 'user' },
-                                { title: 'Machine ID', field: 'machine' },
-                                { title: 'Billing Code', field: 'bill', type: 'numeric' },
-                            ]}
-                            data={[
-                                { date: '02-30-2020', user: 'test1234', machine: '01', bill: 12345 },
-                            ]}
+                            columns={this.state.columns}
+                            data={reservations}
                             editable={{
                                 onRowAdd: newData =>
                                     new Promise((resolve, reject) => {
@@ -143,14 +164,16 @@ class ManageReservations extends Component {
 ManageReservations.propTypes = {
     classes: PropTypes.object.isRequired,
     logoutUser: PropTypes.func.isRequired,
-    auth: PropTypes.object.isRequired
+    auth: PropTypes.object.isRequired,
+    reservations: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-    auth: state.auth
+    auth: state.auth,
+    reservations: state.reservations
 });
 
 export default compose(
     withStyles(styles),
-    connect(mapStateToProps, { logoutUser })
+    connect(mapStateToProps, { logoutUser, getAllReservations })
 )(ManageReservations);
