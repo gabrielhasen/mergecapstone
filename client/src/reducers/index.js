@@ -4,7 +4,8 @@ import errorReducer from "./errorReducer";
 import billingReducer from "./billingReducer";
 import userReducer from './userReducer';
 import machineReducer from './machineReducer';
-import reservationReducer from './reservationReducer';
+import upcomingResReducer from './upcomingResReducer';
+import pastResReducer from './pastResReducer';
 
 export default combineReducers({
   auth: authReducer,
@@ -12,5 +13,6 @@ export default combineReducers({
   codes: billingReducer,
   users: userReducer,
   machines: machineReducer,
-  reservations: reservationReducer
+  upcomingreservations: upcomingResReducer,
+  pastreservations: pastResReducer
 });

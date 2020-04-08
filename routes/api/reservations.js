@@ -1,13 +1,24 @@
 const express = require("express");
+const moment = require("moment");
 const router = express.Router();
 
 const Reservation = require("../../models/Reservation");
 
-// @route GET api/reservations/getRes
+// @route GET api/reservations/getUpcomingRes
 // @desc Get all reservations
 // @access at the moment - public
-router.get("/getRes", (req, res) => {
-    Reservation.find({})
+router.get("/getUpcomingRes", (req, res) => {
+    var now = moment().format("YYYY-MM-DD HH:mm:ss");
+    Reservation.find({start : { $gte : now }}) 
+    .populate("user")
+    .populate("billingCode")
+    .then(reservations => res.json(reservations));
+}
+);
+
+router.get("/getPastRes", (req, res) => {
+    var now = moment().format("YYYY-MM-DD HH:mm:ss");
+    Reservation.find({start : { $lt : now }}) 
     .populate("user")
     .populate("billingCode")
     .then(reservations => res.json(reservations));

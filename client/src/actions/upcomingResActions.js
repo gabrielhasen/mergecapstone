@@ -1,20 +1,20 @@
 import axios from 'axios';
 
-import { GET_ALL_RESERVATIONS, RESERVATIONS_LOADING } from '../actions/types';
+import { GET_UPCOMING_RESERVATIONS, RESERVATIONS_LOADING } from './types';
 
-export const getAllReservations = () => dispatch => {
+export const getUpcomingReservations = () => dispatch => {
     dispatch(setReservationsLoading());
     axios
-        .get('/api/reservations/getRes')
+        .get('/api/reservations/getUpcomingRes')
         .then(res =>
             dispatch({
-                type: GET_ALL_RESERVATIONS,
+                type: GET_UPCOMING_RESERVATIONS,
                 payload: res.data
             })
         )
         .catch(err =>
             dispatch({
-                type: GET_ALL_RESERVATIONS,
+                type: GET_UPCOMING_RESERVATIONS,
                 payload: null
             })
         );
