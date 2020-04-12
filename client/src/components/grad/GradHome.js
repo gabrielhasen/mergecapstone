@@ -44,7 +44,7 @@ class GradHome extends Component {
 
     render() {
         const { classes } = this.props;
-        const { user } = this.props.auth;
+        //const { user } = this.props.auth;
 
         const logout = (
             <div>

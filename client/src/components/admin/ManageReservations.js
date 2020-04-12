@@ -7,7 +7,6 @@ import { logoutUser } from "../../actions/authActions";
 import { getUpcomingReservations } from "../../actions/upcomingResActions";
 import { getPastReservations } from "../../actions/pastResActions"
 import Typography from '@material-ui/core/Typography';
-import moment from 'moment';
 
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -29,7 +28,6 @@ import DeleteOutline from '@material-ui/icons/DeleteOutline';
 import muiTheme from '../../theme/muiTheme';
 
 const tableIcons = {
-    //DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
     FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
     LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
     NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),

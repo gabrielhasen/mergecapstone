@@ -25,7 +25,6 @@ import FirstPage from '@material-ui/icons/FirstPage';
 import LastPage from '@material-ui/icons/LastPage';
 import DeleteOutline from '@material-ui/icons/DeleteOutline';
 import muiTheme from '../../theme/muiTheme';
-import axios from "axios";
 
 const tableIcons = {
     //DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
@@ -51,10 +50,8 @@ class ManageMachines extends Component {
         this.state = {
             columns: [
                 { title: 'ID', field: 'id' },
-                { title: 'Machine', field: 'name' },
-                // { title: 'Interval', field: 'interval' },
+                { title: 'Machine', field: 'name' }
             ],
-            //data: []
         };
     }
 
@@ -100,29 +97,21 @@ class ManageMachines extends Component {
                                 onRowAdd: newData =>
                                     new Promise((resolve, reject) => {
                                         setTimeout(() => {
-                                            {
-                                                console.log(newData);
-                                                this.props.createMachine(newData);
-                                            }
+                                            this.props.createMachine(newData);
                                             resolve()
                                         }, 1000)
                                     }),
                                 onRowUpdate: (newData, oldData) =>
                                     new Promise((resolve, reject) => {
                                         setTimeout(() => {
-                                            {
-                                                console.log(newData);
-                                                this.props.updateMachine(newData);
-                                            }
+                                            this.props.updateMachine(newData);
                                             resolve()
                                         }, 1000)
                                     }),
                                 onRowDelete: oldData =>
                                     new Promise((resolve, reject) => {
                                         setTimeout(() => {
-                                            {
-                                                this.props.deleteMachine(oldData._id);
-                                            }
+                                            this.props.deleteMachine(oldData._id)
                                             resolve()
                                         }, 1000)
                                     }),

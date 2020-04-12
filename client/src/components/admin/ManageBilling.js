@@ -25,10 +25,8 @@ import FirstPage from '@material-ui/icons/FirstPage';
 import LastPage from '@material-ui/icons/LastPage';
 import DeleteOutline from '@material-ui/icons/DeleteOutline';
 import muiTheme from '../../theme/muiTheme';
-import axios from "axios";
 
 const tableIcons = {
-    //DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
     FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
     LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
     NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
@@ -98,18 +96,14 @@ class ManageBilling extends Component {
                                 onRowAdd: newData =>
                                     new Promise((resolve, reject) => {
                                         setTimeout(() => {
-                                            {
-                                                this.props.createCode(newData);
-                                            }
+                                            this.props.createCode(newData);
                                             resolve()
                                         }, 1000)
                                     }),
                                 onRowDelete: oldData =>
                                     new Promise((resolve, reject) => {
                                         setTimeout(() => {
-                                            {
-                                                this.props.deleteCode(oldData._id)
-                                            }
+                                            this.props.deleteCode(oldData._id)
                                             resolve()
                                         }, 1000)
                                     }),

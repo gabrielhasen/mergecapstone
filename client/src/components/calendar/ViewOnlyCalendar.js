@@ -45,7 +45,7 @@ class ViewOnlyCalendar extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:5000/api/machines/getAll', {
+    axios.get('/api/machines/getAll', {
         headers: {
           'Content-Type': 'application/json',
         }

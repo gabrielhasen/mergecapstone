@@ -10,7 +10,6 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Calendar from '../calendar/Calendar';
-import Button from '@material-ui/core/Button';
 
 import Menu from '../menu/Menu';
 import { mainListItems } from '../menu/routes/AdminRoutes';
@@ -49,7 +48,7 @@ class ManageHours extends Component {
 
     render() {
         const { classes } = this.props;
-        const { user } = this.props.auth;
+        //const { user } = this.props.auth;
 
         const logout = (
             <div>

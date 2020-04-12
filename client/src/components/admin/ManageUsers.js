@@ -1,4 +1,4 @@
-import React, { Component, useEffect } from 'react';
+import React, { Component } from 'react';
 import MaterialTable from 'material-table';
 import { compose } from 'redux';
 import PropTypes from "prop-types";
@@ -25,10 +25,8 @@ import FirstPage from '@material-ui/icons/FirstPage';
 import LastPage from '@material-ui/icons/LastPage';
 import DeleteOutline from '@material-ui/icons/DeleteOutline';
 import muiTheme from '../../theme/muiTheme';
-import axios from "axios";
 
 const tableIcons = {
-    //DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
     FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
     LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
     NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
@@ -69,7 +67,6 @@ class ManageUsers extends Component {
     render() {
         const { classes } = this.props;
         const { users, getUsers } = this.props.users;
-        //console.log(this.state.data.user)
 
         const logout = (
             <div>
@@ -93,19 +90,14 @@ class ManageUsers extends Component {
                     <Grid className={classes.dropdown} item xs={12}>
                         <MaterialTable
                             title="All Users"
+                            icons={tableIcons}
                             columns={this.state.columns}
                             data={users}
                             editable={{
                                 onRowUpdate: (newData, oldData) =>
                                     new Promise((resolve, reject) => {
                                         setTimeout(() => {
-                                            {
-                                                // const data = this.state.data;
-                                                // const index = data.indexOf(oldData);
-                                                // data[index] = newData;
-                                                //console.log(newData._id);
-                                                this.props.updateUser(newData);
-                                            }
+                                            this.props.updateUser(newData);
                                             resolve()
                                         }, 1000)
                                     }),

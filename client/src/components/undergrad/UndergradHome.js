@@ -44,7 +44,7 @@ class UndergradHome extends Component {
 
     render() {
         const { classes } = this.props;
-        const { user } = this.props.auth;
+        //const { user } = this.props.auth;
 
         const logout = (
             <div>
@@ -62,7 +62,13 @@ class UndergradHome extends Component {
                 <Menu mainList={mainListItems} secondList={logout}>
                     <Grid className={classes.dropdown} container item xs={12}>
                         <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-                            Reservations
+                            Reservation
+                        </Typography>
+                        {/* <Typography component="h6" variant="h6" color="inherit" noWrap className={classes.title}>
+                            Select a Reservation Time
+                        </Typography> */}
+                        <Typography>
+                            Step #. Filler Text 
                         </Typography>
                     </Grid>
                     <Grid className={classes.calendar} container item xs={12}>

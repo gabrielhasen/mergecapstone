@@ -7,7 +7,7 @@ import BuildIcon from '@material-ui/icons/Build';
 import EventTwoToneIcon from '@material-ui/icons/EventTwoTone';
 import PersonIcon from '@material-ui/icons/Person';
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
-import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
+import DateRangeIcon from '@material-ui/icons/DateRange';
 
 
 export const mainListItems = (
@@ -15,33 +15,34 @@ export const mainListItems = (
     <ListSubheader inset></ListSubheader>
     <ListItem button component="a" href="/manage-reservations">
       <ListItemIcon>
-        <EventTwoToneIcon />
+        <DateRangeIcon />
       </ListItemIcon>
-      <ListItemText primary="Manage Reservations" />
+      <ListItemText primary="Reservations" />
     </ListItem>
     <ListItem button component="a" href="/manage-machines">
       <ListItemIcon>
         <BuildIcon />
       </ListItemIcon>
-      <ListItemText primary="Manage Machines" />
+      <ListItemText primary="Machines" />
     </ListItem>
     <ListItem button component="a" href="/manage-users">
       <ListItemIcon>
         <PersonIcon />
       </ListItemIcon>
-      <ListItemText primary="Manage Users" />
+      <ListItemText primary="Users" />
     </ListItem>
     <ListItem button component="a" href="/manage-billing">
       <ListItemIcon>
         <AccountBalanceIcon />
       </ListItemIcon>
-      <ListItemText primary="Manage Billing Codes" />
+      <ListItemText primary="Billing Codes" />
     </ListItem>
-    <ListItem button component="a" href="/manage-hours">
+    {/* Change the url */}
+    <ListItem button component="a" href="/areserve">
       <ListItemIcon>
-        <AssignmentIndIcon />
+        <EventTwoToneIcon />
       </ListItemIcon>
-      <ListItemText primary="Manage Hours" />
+      <ListItemText primary="Reserve" />
     </ListItem>
   </div>
 );

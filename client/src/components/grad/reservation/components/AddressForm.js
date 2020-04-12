@@ -1,48 +1,9 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import clsx from 'clsx';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 
-const useStyles = makeStyles(theme => ({
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-    maxWidth: 300,
-  },
-  noLabel: {
-    marginTop: theme.spacing(3),
-  },
-}));
-
-const gradStudent = [
-  'Grad Student 1',
-  'Grad Student 2',
-  'Grad Student 3'
-];
-
-function getStyles(name, gradName, theme) {
-  return {
-    fontWeight:
-      gradName.indexOf(name) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
-  };
-}
 
 export default function AddressForm() {
-
-  const classes = useStyles();
-  const theme = useTheme();
-  const [gradName, setgradName] = React.useState([]);
-
-  const handleChange = event => {
-    setgradName(event.target.value);
-  };
 
   return (
     <React.Fragment>

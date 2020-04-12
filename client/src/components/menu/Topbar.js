@@ -6,7 +6,8 @@ import IconButton from '@material-ui/core/IconButton';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import MenuIcon from '@material-ui/icons/Menu';
+//import HomeIcon from '@material-ui/icons/Home';
+import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 
 const drawerWidth = 240;
 
@@ -58,7 +59,7 @@ const Topbar = props => {
             onClick={onDrawerOpen}
             className={clsx(classes.menuButton, isOpen && classes.menuButtonHidden)}
             >
-              <MenuIcon />
+              <MenuOpenIcon />
             </IconButton> 
             <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
               Machine Shop

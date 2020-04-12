@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { loginUser } from "../../actions/authActions";
@@ -7,7 +6,6 @@ import classnames from "classnames";
 import { compose } from 'redux';
 
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import AssignmentReturnedIcon from '@material-ui/icons/AssignmentReturned';
 import { Grid, TextField } from "@material-ui/core";
 import muiTheme from '../../theme/muiTheme';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';

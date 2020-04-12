@@ -103,6 +103,7 @@ class Calendar extends Component {
   newEvent = (schedulerData, slotId, slotName, start, end, type, item) => {
     if(schedulerData.viewType === 0) //Allows users to only create events in day view
     {
+      console.log(schedulerData)
       // if(window.confirm(`Do you want to create a new event? {slotId: ${slotId}, slotName: ${slotName}, start: ${start}, end: ${end}, type: ${type}, item: ${item}}`)) {
         if(window.confirm(`Create reservation for ${slotName} from ${start} to ${end}?`)) {
         let newFreshId = 0;

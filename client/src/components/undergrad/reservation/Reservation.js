@@ -2,7 +2,6 @@ import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
@@ -13,7 +12,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import AddressForm from './components/AddressForm';
-import PaymentForm from './components/PaymentForm';
 import Review from './components/Review';
 
 const useStyles = makeStyles(theme => ({
@@ -119,16 +117,34 @@ export default function Reservation() {
                                         {activeStep !== 0 && (
                                             <Button onClick={handleBack} className={classes.button}>
                                                 Back
-                    </Button>
+                                            </Button>
                                         )}
-                                        <Button
+                                        {/* <Button
                                             variant="contained"
                                             color="primary"
                                             onClick={handleNext}
                                             className={classes.button}
                                         >
                                             {activeStep === steps.length - 1 ? 'Reserve' : 'Next'}
-                                        </Button>
+                                        </Button> */}
+                                        {activeStep === 0 && (      
+                                            <Button 
+                                            variant="contained"
+                                            color="primary"
+                                            onClick={handleNext}            //switch to function that validates a valid billing code is entered and store the information
+                                            className={classes.button}>
+                                                Next
+                                            </Button>
+                                        )}
+                                        {activeStep === 1 && (
+                                            <Button 
+                                            variant="contained"
+                                            color="primary"
+                                            onClick={handleNext}            //switch to a function that saves the reservation
+                                            className={classes.button}>
+                                                Reserve
+                                            </Button>
+                                        )}
                                     </div>
                                 </React.Fragment>
                             )}
