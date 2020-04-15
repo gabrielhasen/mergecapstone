@@ -24,7 +24,9 @@ const ReservationSchema = new Schema ({
         required: true
     },
     resourceId: {
-        type: Number,
+        // type: Number,
+        type: Schema.Types.ObjectId,
+        ref: "machines",
         required: true
     },
     title: {
@@ -39,7 +41,11 @@ const ReservationSchema = new Schema ({
         type: Schema.Types.ObjectId,
         ref: "billingcodes",
         required: true
-    }
+    },
+    grad: {
+        type: Schema.Types.ObjectId,
+        ref: "users"
+    },
 });
 
 module.exports = Task = mongoose.model("reservations", ReservationSchema);

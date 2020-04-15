@@ -12,6 +12,8 @@ router.get("/getUpcomingRes", (req, res) => {
     Reservation.find({start : { $gte : now }}) 
     .populate("user")
     .populate("billingCode")
+    .populate("resourceId")
+    .populate("grad")
     .then(reservations => res.json(reservations));
 }
 );
@@ -21,6 +23,8 @@ router.get("/getPastRes", (req, res) => {
     Reservation.find({start : { $lt : now }}) 
     .populate("user")
     .populate("billingCode")
+    .populate("resourceId")
+    .populate("grad")
     .then(reservations => res.json(reservations));
 }
 );
@@ -37,7 +41,8 @@ router.post("/newReservation", (req, res) => {
                 start: req.body.start,
                 end: req.body.end,
                 resourceId: req.body.resourceId,
-                billingCode: req.body.billingCode
+                billingCode: req.body.billingCode,
+                grad: req.body.grad
             });
 
             newReservation.save().then(reservation => res.json(reservation));

@@ -53,8 +53,9 @@ class ManageReservations extends Component {
                 { title: 'Start Date', field: 'start' },
                 { title: 'End Date', field: 'end' },
                 { title: 'User', field: 'user.name' },
-                { title: 'Machine ID', field: 'resourceId' },
-                { title: 'Billing Code', field: 'billingCode.code' },
+                { title: 'Grad', field: 'grad.name' },
+                { title: 'Machine ID', field: 'resourceId.id' },
+                { title: 'Billing Code', field: 'billingCode.code' }
             ]
         }
     }
@@ -73,7 +74,7 @@ class ManageReservations extends Component {
         const { classes } = this.props;
         const { upcomingreservations, getUpcomingReservations } = this.props.upcomingreservations;
         const { pastreservations, getPastReservations } = this.props.pastreservations;
-
+        console.log(upcomingreservations);
     
 
         // if(moment(reservations.start).isBefore(moment().format("YYYY-MM-DD HH:mm:ss")))

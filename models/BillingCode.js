@@ -9,7 +9,7 @@ const BillingCodeSchema = new Schema({
     },
     desc: {
         type: String,
-        required: true
+        //required: true
     },
 });
 
