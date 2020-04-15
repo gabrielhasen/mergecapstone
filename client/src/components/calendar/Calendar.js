@@ -11,6 +11,7 @@ import withDragDropContext from "./components/WithDndContext";
 import DemoData from './components/DemoData';
 
 class Calendar extends Component {
+
   constructor(props) {
     super(props);
 
@@ -42,6 +43,10 @@ class Calendar extends Component {
       viewModel: schedulerData
     };
   }
+
+  sendData = () => {
+    this.props.parentCallback("Hey Popsie, How’s it going?");
+  };
 
   render() {
     const { viewModel } = this.state;

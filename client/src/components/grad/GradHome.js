@@ -17,7 +17,10 @@ import { mainListItems } from '../menu/routes/GradRoutes';
 import { Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
-
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import TextField from '@material-ui/core/TextField';
 import muiTheme from '../../theme/muiTheme';
 
 const styles = theme => ({
@@ -31,6 +34,9 @@ const styles = theme => ({
     },
     calendar: {
         justifyContent: 'center'
+    },
+    card: {
+        margin: theme.spacing(2),
     }
 });
 
@@ -65,12 +71,30 @@ class GradHome extends Component {
                             Reservations
                         </Typography>
                     </Grid>
-                    <Grid className={classes.calendar} container item xs={12}>
-                        <Calendar />
-                    </Grid>
-                    <Grid className={classes.button} container item xs={12}>
-                        <Button href="\g-reservations" variant="contained">Make Reservation</Button>
-                    </Grid>
+                                        {/* <Grid className={classes.calendar} container item xs={12}> */}
+                                        <Card className={classes.card}>
+                        <CardContent>
+                            <Typography>Step 1. Reserve Time on a Machine</Typography>
+                            <p>Click and drag on the calendar to reserve time on a given machine below. You may only make one reservation at a time.</p>
+                        </CardContent>
+                        <Calendar/>
+                    </Card>
+                    <Card className={classes.card}>
+                        <CardContent>
+                            <Typography>
+                                Step 2. Reservation Information
+                                <form noValidate>
+                                    <TextField
+                                        id="standard-basic"
+                                        label="Billing Code"
+                                    />
+                                </form>
+                            </Typography>
+                        </CardContent>
+                        <CardActions>
+                            <Button size="small" variant="contained" color="secondary">Reserve</Button>
+                        </CardActions>
+                    </Card>
                 </Menu>
             </MuiThemeProvider>
         );
