@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "../../actions/authActions";
-import { getUpcomingReservations } from "../../actions/upcomingResActions";
+import { getUpcomingReservations, deleteReservation } from "../../actions/upcomingResActions";
 import { getPastReservations } from "../../actions/pastResActions"
 import Typography from '@material-ui/core/Typography';
 
@@ -108,12 +108,7 @@ class ManageReservations extends Component {
                                 onRowDelete: oldData =>
                                     new Promise((resolve, reject) => {
                                         setTimeout(() => {
-                                            {
-                                                let data = this.state.data;
-                                                const index = data.indexOf(oldData);
-                                                data.splice(index, 1);
-                                                this.setState({ data }, () => resolve());
-                                            }
+                                            this.props.deleteReservation(oldData._id)
                                             resolve()
                                         }, 1000)
                                     }),
@@ -158,5 +153,5 @@ const mapStateToProps = state => ({
 
 export default compose(
     withStyles(styles),
-    connect(mapStateToProps, { logoutUser, getUpcomingReservations, getPastReservations })
+    connect(mapStateToProps, { logoutUser, getUpcomingReservations, getPastReservations, deleteReservation })
 )(ManageReservations);
