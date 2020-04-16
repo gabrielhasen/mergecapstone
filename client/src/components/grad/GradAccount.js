@@ -4,6 +4,8 @@ import { compose } from 'redux';
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "../../actions/authActions";
+import { getUpcomingResID, deleteReservation } from "../../actions/upcomingResActions";
+import { getPastResID } from "../../actions/pastResActions";
 import Typography from '@material-ui/core/Typography';
 
 import ListItem from '@material-ui/core/ListItem';
@@ -26,7 +28,6 @@ import DeleteOutline from '@material-ui/icons/DeleteOutline';
 import muiTheme from '../../theme/muiTheme';
 
 const tableIcons = {
-    //DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
     FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
     LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
     NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
@@ -44,6 +45,23 @@ const styles = theme => ({
 
 class GradAccount extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            columns: [
+                { title: 'Start Date', field: 'start' },
+                { title: 'End Date', field: 'end' },
+                { title: 'Machine ID', field: 'resourceId.id' },
+                { title: 'Billing Code', field: 'billingCode.code' }
+            ]
+        }
+    }
+
+    componentDidMount() {
+        this.props.getUpcomingResID(this.props.auth.user._id);
+        this.props.getPastResID(this.props.auth.user._id);
+    }
+
     onLogoutClick = e => {
         e.preventDefault();
         this.props.logoutUser();
@@ -51,6 +69,8 @@ class GradAccount extends Component {
 
     render() {
         const { classes } = this.props;
+        const { upcomingreservations, getUpcomingResID } = this.props.upcomingreservations;
+        const { pastreservations, getPastResID } = this.props.pastreservations;
 
         const logout = (
             <div>
@@ -75,25 +95,14 @@ class GradAccount extends Component {
                         <MaterialTable
                             icons={tableIcons}
                             title="Upcoming Reservations"
-                            columns={[
-                                { title: 'Date', field: 'date' },
-                                { title: 'Machine', field: 'machine' },
-                                { title: 'Billing Code', field: 'bill', type: 'numeric' },
-                            ]}
-                            data={[
-                                { date: '02-30-2020', machine: '3D Printer', bill: 12345 },
-                            ]}
+                            columns={this.state.columns}
+                            data={upcomingreservations}
                             editable={{
                                 onRowDelete: oldData =>
                                   new Promise((resolve, reject) => {
                                     setTimeout(() => {
-                                      {
-                                        let data = this.state.data;
-                                        const index = data.indexOf(oldData);
-                                        data.splice(index, 1);
-                                        this.setState({ data }, () => resolve());
-                                      }
-                                      resolve()
+                                        this.props.deleteReservation(oldData._id)
+                                        resolve()
                                     }, 1000)
                                   }),
                               }}
@@ -107,14 +116,8 @@ class GradAccount extends Component {
                         <MaterialTable
                             icons={tableIcons}
                             title="Past Reservations"
-                            columns={[
-                                { title: 'Date', field: 'date' },
-                                { title: 'Machine', field: 'machine' },
-                                { title: 'Billing Code', field: 'bill', type: 'numeric' },
-                            ]}
-                            data={[
-                                { date: '02-20-2020', machine: '3D Printer', bill: 12345 },
-                            ]}
+                            columns={this.state.columns}
+                            data={pastreservations}
                             options={{
                                 exportButton: true,
                                 search: false
@@ -130,14 +133,18 @@ class GradAccount extends Component {
 GradAccount.propTypes = {
     classes: PropTypes.object.isRequired,
     logoutUser: PropTypes.func.isRequired,
-    auth: PropTypes.object.isRequired
+    auth: PropTypes.object.isRequired,
+    upcomingreservations: PropTypes.object.isRequired,
+    pastreservations: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-    auth: state.auth
+    auth: state.auth,
+    upcomingreservations: state.upcomingreservations,
+    pastreservations: state.pastreservations
 });
 
 export default compose(
     withStyles(styles),
-    connect(mapStateToProps, { logoutUser })
+    connect(mapStateToProps, { logoutUser, getUpcomingResID, getPastResID, deleteReservation })
 )(GradAccount);
