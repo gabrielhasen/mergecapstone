@@ -31,11 +31,30 @@ router.get("/getPastRes", (req, res) => {
 }
 );
 
-//get for all students
+//get for upcoming reservations all students
 router.get("/upcoming/:id", (req, res) => {
     let id = req.params.id;
+    var now = moment().format("YYYY-MM-DD HH:mm:ss");
 
-    Reservation.find({user: id})
+    Reservation.find({
+        user: id, 
+        start : { $gte : now }
+    })
+    .populate("user")
+    .populate("billingCode")
+    .populate("resourceId")
+    .populate("grad")
+    .then(reservation => res.json(reservation));
+});
+
+router.get("/past/:id", (req, res) => {
+    let id = req.params.id;
+    var now = moment().format("YYYY-MM-DD HH:mm:ss");
+
+    Reservation.find({
+        user: id, 
+        start : { $lt : now }
+    })
     .populate("user")
     .populate("billingCode")
     .populate("resourceId")
@@ -63,5 +82,12 @@ router.post("/newReservation", (req, res) => {
         }
     });
 });
+
+router.delete("/delete/:id", (req, res) => {
+    Reservation.findById(req.params.id).then(reservation => {
+        reservation.remove().then(() => res.json({success: true}));
+    });
+}
+);
 
 module.exports = router;

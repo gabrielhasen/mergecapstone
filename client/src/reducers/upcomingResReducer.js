@@ -1,4 +1,4 @@
-import { GET_ALL_UPCOMING_RESERVATIONS, GET_UPCOMING_RESERVATIONS, RESERVATIONS_LOADING } from '../actions/types';
+import { GET_UPCOMING_RESERVATIONS, RESERVATIONS_LOADING, DELETE_RESERVATION } from '../actions/types';
 
 const initialState = {
     upcomingreservations: [],
@@ -9,7 +9,7 @@ export default function(state = initialState, action)
 {
     switch(action.type)
     {
-        case GET_ALL_UPCOMING_RESERVATIONS:
+        case GET_UPCOMING_RESERVATIONS:
             return {
                 ...state,
                 upcomingreservations: action.payload,
@@ -22,10 +22,12 @@ export default function(state = initialState, action)
                 upcomingreservationsLoading: true
             };
 
-        case GET_UPCOMING_RESERVATIONS:
+        case DELETE_RESERVATION:
             return {
                 ...state,
-                upcomingreservations: action.payload
+                upcomingreservations: state.upcomingreservations.filter(
+                    upcomingreservations => upcomingreservations._id !== action.payload
+                )
             };
 
         default:
