@@ -75,7 +75,6 @@ class ManageReservations extends Component {
         const { upcomingreservations, getUpcomingReservations } = this.props.upcomingreservations;
         const { pastreservations, getPastReservations } = this.props.pastreservations;
         console.log(upcomingreservations);
-    
 
         // if(moment(reservations.start).isBefore(moment().format("YYYY-MM-DD HH:mm:ss")))
         // {console.log(reservations);}

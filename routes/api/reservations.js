@@ -7,6 +7,7 @@ const Reservation = require("../../models/Reservation");
 // @route GET api/reservations/getUpcomingRes
 // @desc Get all reservations
 // @access at the moment - public
+//ADMIN
 router.get("/getUpcomingRes", (req, res) => {
     var now = moment().format("YYYY-MM-DD HH:mm:ss");
     Reservation.find({start : { $gte : now }}) 
@@ -18,6 +19,7 @@ router.get("/getUpcomingRes", (req, res) => {
 }
 );
 
+//ADMIN
 router.get("/getPastRes", (req, res) => {
     var now = moment().format("YYYY-MM-DD HH:mm:ss");
     Reservation.find({start : { $lt : now }}) 
@@ -28,6 +30,18 @@ router.get("/getPastRes", (req, res) => {
     .then(reservations => res.json(reservations));
 }
 );
+
+//get for all students
+router.get("/upcoming/:id", (req, res) => {
+    let id = req.params.id;
+
+    Reservation.find({user: id})
+    .populate("user")
+    .populate("billingCode")
+    .populate("resourceId")
+    .populate("grad")
+    .then(reservation => res.json(reservation));
+});
 
 router.post("/newReservation", (req, res) => {
     //Check for conflicts here??

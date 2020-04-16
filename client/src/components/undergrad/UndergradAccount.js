@@ -4,6 +4,7 @@ import { compose } from 'redux';
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "../../actions/authActions";
+import { getUpcomingResID } from "../../actions/upcomingResActions";
 import Typography from '@material-ui/core/Typography';
 
 import ListItem from '@material-ui/core/ListItem';
@@ -44,6 +45,11 @@ const styles = theme => ({
 
 class UndergradAccount extends Component {
 
+    componentDidMount() {
+        this.props.getUpcomingResID(this.props.auth.user._id);
+        console.log(this.props.auth.user._id);
+    }
+
     onLogoutClick = e => {
         e.preventDefault();
         this.props.logoutUser();
@@ -51,6 +57,8 @@ class UndergradAccount extends Component {
 
     render() {
         const { classes } = this.props;
+        const { upcomingreservations, getUpcomingResID } = this.props.upcomingreservations;
+        console.log(upcomingreservations);
 
         const logout = (
             <div>
@@ -76,13 +84,14 @@ class UndergradAccount extends Component {
                             icons={tableIcons}
                             title="Upcoming Reservations"
                             columns={[
-                                { title: 'Date', field: 'date' },
-                                { title: 'Machine', field: 'machine' },
-                                { title: 'Billing Code', field: 'bill', type: 'numeric' },
+                                { title: 'Start Date', field: 'start' },
+                                { title: 'End Date', field: 'end' },
+                                { title: 'User', field: 'user.name' },
+                                { title: 'Grad', field: 'grad.name' },
+                                { title: 'Machine ID', field: 'resourceId.id' },
+                                { title: 'Billing Code', field: 'billingCode.code' }
                             ]}
-                            data={[
-                                { date: '02-30-2020', machine: '3D Printer', bill: 12345 },
-                            ]}
+                            data={upcomingreservations}
                             editable={{
                                 onRowDelete: oldData =>
                                   new Promise((resolve, reject) => {
@@ -130,14 +139,17 @@ class UndergradAccount extends Component {
 UndergradAccount.propTypes = {
     classes: PropTypes.object.isRequired,
     logoutUser: PropTypes.func.isRequired,
-    auth: PropTypes.object.isRequired
+    auth: PropTypes.object.isRequired,
+    getUpcomingResID: PropTypes.func.isRequired,
+    upcomingreservations: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-    auth: state.auth
+    auth: state.auth,
+    upcomingreservations: state.upcomingreservations
 });
 
 export default compose(
     withStyles(styles),
-    connect(mapStateToProps, { logoutUser })
+    connect(mapStateToProps, { logoutUser, getUpcomingResID })
 )(UndergradAccount);
