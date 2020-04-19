@@ -44,20 +44,20 @@ class ViewOnlyCalendar extends Component {
     };
   }
 
-  componentDidMount() {
-    axios.get('/api/machines/getAll', {
-        headers: {
-          'Content-Type': 'application/json',
-        }
-    })
-      .then(res =>{
-        this.setState({ resources: res.data })
-        console.log(this.state.resources)
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
-  }
+  // componentDidMount() {
+  //   axios.get('/api/machines/getAll', {
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       }
+  //   })
+  //     .then(res =>{
+  //       this.setState({ resources: res.data })
+  //       //console.log(this.state.resources)
+  //     })
+  //     .catch(function (error) {
+  //       console.log(error);
+  //     })
+  // }
 
   render() {
     const { viewModel } = this.state;

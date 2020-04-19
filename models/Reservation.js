@@ -24,7 +24,12 @@ const ReservationSchema = new Schema ({
         required: true
     },
     resourceId: {
-        // type: Number,
+        type: Number,
+        // type: Schema.Types.ObjectId,
+        // ref: "machines",
+        required: true
+    },
+    machine: {
         type: Schema.Types.ObjectId,
         ref: "machines",
         required: true

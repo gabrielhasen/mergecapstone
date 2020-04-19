@@ -4,6 +4,16 @@ const router = express.Router();
 
 const Reservation = require("../../models/Reservation");
 
+router.get("/getReservations", (req, res) => {
+    Reservation.find() 
+    .populate("user")
+    .populate("billingCode")
+    .populate("machine")
+    .populate("grad")
+    .then(reservations => res.json(reservations));
+}
+);
+
 // @route GET api/reservations/getUpcomingRes
 // @desc Get all reservations
 // @access at the moment - public
@@ -13,7 +23,7 @@ router.get("/getUpcomingRes", (req, res) => {
     Reservation.find({start : { $gte : now }}) 
     .populate("user")
     .populate("billingCode")
-    .populate("resourceId")
+    .populate("machine")
     .populate("grad")
     .then(reservations => res.json(reservations));
 }
@@ -25,7 +35,7 @@ router.get("/getPastRes", (req, res) => {
     Reservation.find({start : { $lt : now }}) 
     .populate("user")
     .populate("billingCode")
-    .populate("resourceId")
+    .populate("machine")
     .populate("grad")
     .then(reservations => res.json(reservations));
 }
@@ -42,7 +52,7 @@ router.get("/upcoming/:id", (req, res) => {
     })
     .populate("user")
     .populate("billingCode")
-    .populate("resourceId")
+    .populate("machine")
     .populate("grad")
     .then(reservation => res.json(reservation));
 });
@@ -57,7 +67,7 @@ router.get("/past/:id", (req, res) => {
     })
     .populate("user")
     .populate("billingCode")
-    .populate("resourceId")
+    .populate("machine")
     .populate("grad")
     .then(reservation => res.json(reservation));
 });
@@ -74,6 +84,7 @@ router.post("/newReservation", (req, res) => {
                 start: req.body.start,
                 end: req.body.end,
                 resourceId: req.body.resourceId,
+                machine: req.body.machine,
                 billingCode: req.body.billingCode,
                 grad: req.body.grad
             });

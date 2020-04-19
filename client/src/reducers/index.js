@@ -6,6 +6,7 @@ import userReducer from './userReducer';
 import machineReducer from './machineReducer';
 import upcomingResReducer from './upcomingResReducer';
 import pastResReducer from './pastResReducer';
+import schedulerReducer from "./schedulerReducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -14,5 +15,6 @@ export default combineReducers({
   users: userReducer,
   machines: machineReducer,
   upcomingreservations: upcomingResReducer,
-  pastreservations: pastResReducer
+  pastreservations: pastResReducer,
+  schedulerData: schedulerReducer
 });
