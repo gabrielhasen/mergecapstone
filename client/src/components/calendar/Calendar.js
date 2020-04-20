@@ -1,9 +1,5 @@
 import React, { Component } from "react";
-import Scheduler, {
-  SchedulerData,
-  ViewTypes,
-  DATE_FORMAT
-} from "react-big-scheduler";
+import Scheduler from "react-big-scheduler";
 import { 
   prevClick,
   nextClick,
@@ -14,11 +10,9 @@ import {
  } from '../../actions/schedulerActions';
 import "react-big-scheduler/lib/css/style.css";
 import { connect } from "react-redux";
-import moment from "moment";
 import { compose } from 'redux';
 
 import withDragDropContext from "./components/WithDndContext";
-import DemoData from './components/DemoData';
 
 const mapStateToProps = state => {
   return {
@@ -39,7 +33,6 @@ class Calendar extends Component {
   newEvent = ( schedulerData, slotId, slotName, start, end, type, item ) => { this.props.newEvent(schedulerData, slotId, slotName, start, end, type, item) }
 
   render() {
-    //console.log(this.props.viewModel)
     return (
       <div>
           <Scheduler
