@@ -26,6 +26,16 @@ router.post("/newCode", (req, res) => {
     });
 });
 
+router.post("/checkCode", (req,res) => {
+    BillingCode.findOne({ code: req.body.code }).then(billingcode => {
+        if(billingcode) {
+            return res.json(billingcode);
+        } else {
+            return res.status(404).json({ codenotfound: "Not Found"});
+        }
+    });
+});
+
 router.delete("/delete/:id", (req, res) => {
     BillingCode.findById(req.params.id).then(code => {
         code.remove().then(() => res.json({success: true}));

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { GET_CODES, CODES_LOADING, DELETE_CODE, CREATE_CODE } from './types';
+import { GET_CODES, CODES_LOADING, DELETE_CODE, CREATE_CODE, FIND_CODE, GET_ERRORS } from './types';
 
 //Get All Billing Codes
 export const getCodes = () => dispatch => {
@@ -33,6 +33,22 @@ export const createCode = codeData => dispatch => {
         )
         .catch(err => console.log(err));
 };
+
+export const findCode = code => dispatch => {
+    axios
+        .post("/api/billingcodes/checkCode", code)
+        .then(res =>
+            dispatch({
+                type: FIND_CODE,
+                payload: res.data
+            })
+        )
+        .catch(err => 
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            }));
+}
 
 //Delete a Billing Code
 export const deleteCode = id => dispatch => {

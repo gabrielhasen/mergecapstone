@@ -1,6 +1,23 @@
 import axios from 'axios';
 
-import { GET_UPCOMING_RESERVATIONS, RESERVATIONS_LOADING, DELETE_RESERVATION } from './types';
+import { GET_UPCOMING_RESERVATIONS, RESERVATIONS_LOADING, DELETE_RESERVATION, NEW_RESERVATION } from './types';
+
+export const createReservation = newReservation => dispatch => {
+    axios
+        .post("/api/reservations/newReservation", newReservation)
+        .then(res =>
+            dispatch({
+                type: NEW_RESERVATION,
+                payload: res.data
+            })
+        )
+        .catch(err =>
+            dispatch({
+                type: NEW_RESERVATION,
+                payload: null
+            })
+        );
+};
 
 export const getUpcomingReservations = () => dispatch => {
     dispatch(setReservationsLoading());

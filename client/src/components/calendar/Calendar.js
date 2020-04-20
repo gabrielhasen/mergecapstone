@@ -82,10 +82,8 @@ class Calendar extends Component {
       }
     }
   }
-  //getReservation = () => { this.props.getReservation(this.state.newRes) }
 
   render() {
-    console.log(this.state);
     return (
       <div>
         <Scheduler

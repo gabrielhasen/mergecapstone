@@ -3,6 +3,8 @@ import { compose } from 'redux';
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "../../actions/authActions";
+import { findCode } from "../../actions/billingActions";
+import { createReservation } from "../../actions/upcomingResActions";
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
@@ -25,20 +27,8 @@ import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import classnames from "classnames";
 import clsx from 'clsx';
-
-import Scheduler from "react-big-scheduler";
-import {
-    prevClick,
-    nextClick,
-    onViewChange,
-    onSelectDate,
-    newEvent,
-    loadAgendaData
-} from '../../actions/schedulerActions';
-import "react-big-scheduler/lib/css/style.css";
-
-import withDragDropContext from "../calendar/components/WithDndContext";
 
 import muiTheme from '../../theme/muiTheme';
 
@@ -66,36 +56,75 @@ class UndergradHome extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          newRes: [],
+            newRes: [],
+            refresh: false,
+            errors: {}
         };
-      }
+    }
 
     getReservation(item) {
-        this.setState({newRes: item})
-        console.log(this.state.newRes)
+        this.setState({ newRes: item })
     }
 
-    componentDidMount = () => {
-        this.props.loadAgendaData();
+    onSubmit = e => {
+        e.preventDefault();
+
+        if (this.state.newRes.resFlg) { this.props.findCode(this.state); }
+        else { window.confirm("Please select a reservation time."); }
+    }
+
+    submitReservation(code) {
+        const reservation = {
+            user: this.state.newRes.newRes.user,
+            id: this.state.newRes.newRes.id,
+            start: this.state.newRes.newRes.start,
+            end: this.state.newRes.newRes.end,
+            resourceId: this.state.newRes.newRes.resourceId,
+            billingCode: code
+        }
+
+        this.props.createReservation(reservation);
+        this.setState({
+            refresh: true
+        });
+    }
+
+    forceRefresh() {
+        window.location.reload();
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.codes.success && nextProps.codes.codes._id !== undefined) {
+            this.submitReservation(nextProps.codes.codes._id);
+        }
+
+        if (nextProps.upcomingreservations !== undefined && this.state.refresh) {
+            window.confirm("Reservation Complete");
+            this.forceRefresh();
+        }
+
+        if (nextProps.errors) {
+            this.setState({
+                errors: nextProps.errors
+            });
+        }
     }
 
 
-    prevClick = () => { this.props.prevClick() }
-    nextClick = () => { this.props.nextClick() }
-    onViewChange = (schedulerData, view) => { this.props.onViewChange(schedulerData, view) }
-    onSelectDate = (schedulerData, date) => { this.props.onSelectDate(schedulerData, date) }
-    newEvent = (schedulerData, slotId, slotName, start, end, type, item) => { this.props.newEvent(schedulerData, slotId, slotName, start, end, type, item); }
-
+    onChange = e => {
+        this.setState({ [e.target.id]: e.target.value })
+    }
 
     onLogoutClick = e => {
         e.preventDefault();
         this.props.logoutUser();
     };
 
-    onNewEvent
 
     render() {
         const { classes } = this.props;
+        const { errors } = this.state;
+        const { codes, findCode } = this.props.codes;
 
         const logout = (
             <div>
@@ -116,43 +145,43 @@ class UndergradHome extends Component {
                             Make a Reservation
                         </Typography>
                     </Grid>
-                    {/* <Grid className={classes.calendar} container item xs={12}> */}
                     <Card className={classes.card}>
                         <CardContent>
                             <Typography>Step 1. Reserve Time on a Machine</Typography>
                             <p>Click and drag on the calendar to reserve time on a given machine below. You may only make one reservation at a time.</p>
                         </CardContent>
-                        {/* <Scheduler
-                            schedulerData={this.props.viewModel}
-                            prevClick={this.prevClick}
-                            nextClick={this.nextClick}
-                            onSelectDate={this.onSelectDate}
-                            onViewChange={this.onViewChange}
-                            newEvent={this.newEvent}
-                            onScrollTop={this.onScrollTop}
-                            onScrollBottom={this.onScrollBottom}
-                            toggleExpandFunc={this.toggleExpandFunc}
-                        /> */}
                         <Calendar data={
-                            {newRes: this.state.newRes, 
-                            getReservation: this.getReservation.bind(this)}
-                        }/>
+                            {
+                                newRes: this.state.newRes,
+                                getReservation: this.getReservation.bind(this)
+                            }
+                        } />
                     </Card>
                     <Card className={classes.card}>
-                        <CardContent>
-                            <Typography>
-                                Step 2. Reservation Information
-                                <form noValidate>
-                                    <TextField
-                                        id="standard-basic"
-                                        label="Billing Code"
-                                    />
-                                </form>
-                            </Typography>
-                        </CardContent>
-                        <CardActions>
-                            <Button size="small" variant="contained" color="secondary">Reserve</Button>
-                        </CardActions>
+                        <form noValidate onSubmit={this.onSubmit}>
+                            <CardContent>
+                                <Typography>
+                                    Step 2. Reservation Information
+                                    <div>
+                                        <TextField
+                                            required
+                                            id="code"
+                                            label="Billing Code"
+                                            value={this.state.code}
+                                            onChange={this.onChange}
+                                            error={errors.codenotfound}
+                                            helperText={errors.codenotfound}
+                                            className={classnames("", {
+                                                invalid: errors.codenotfound
+                                            })}
+                                        />
+                                    </div>
+                                </Typography>
+                            </CardContent>
+                            <CardActions>
+                                <Button size="small" variant="contained" color="secondary" type="submit">Reserve</Button>
+                            </CardActions>
+                        </form>
                     </Card>
                 </Menu>
             </MuiThemeProvider>
@@ -163,17 +192,20 @@ class UndergradHome extends Component {
 UndergradHome.propTypes = {
     classes: PropTypes.object.isRequired,
     logoutUser: PropTypes.func.isRequired,
-    auth: PropTypes.object.isRequired
+    auth: PropTypes.object.isRequired,
+    errors: PropTypes.object.isRequired,
+    upcomingreservations: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-    viewModel: state.schedulerData,
-    auth: state.auth
+    auth: state.auth,
+    codes: state.codes,
+    errors: state.errors,
+    upcomingreservations: state.upcomingreservations
 });
 
 
 export default compose(
     withStyles(styles),
-    connect(mapStateToProps, { logoutUser, prevClick, nextClick, onViewChange, onSelectDate, newEvent, loadAgendaData }),
-    withDragDropContext
+    connect(mapStateToProps, { logoutUser, findCode, createReservation }),
 )(UndergradHome);

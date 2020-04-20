@@ -1,4 +1,4 @@
-import { GET_UPCOMING_RESERVATIONS, RESERVATIONS_LOADING, DELETE_RESERVATION } from '../actions/types';
+import { GET_UPCOMING_RESERVATIONS, RESERVATIONS_LOADING, DELETE_RESERVATION, NEW_RESERVATION } from '../actions/types';
 
 const initialState = {
     upcomingreservations: [],
@@ -9,6 +9,12 @@ export default function(state = initialState, action)
 {
     switch(action.type)
     {
+        case NEW_RESERVATION:
+            return {
+                ...state,
+                upcomingreservations: [action.payload, ...state.upcomingreservations]
+            }
+
         case GET_UPCOMING_RESERVATIONS:
             return {
                 ...state,
