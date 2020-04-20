@@ -23,6 +23,19 @@ import CardContent from '@material-ui/core/CardContent';
 import TextField from '@material-ui/core/TextField';
 import muiTheme from '../../theme/muiTheme';
 
+import Scheduler from "react-big-scheduler";
+import {
+    prevClick,
+    nextClick,
+    onViewChange,
+    onSelectDate,
+    newEvent,
+    loadAgendaData
+} from '../../actions/schedulerActions';
+import "react-big-scheduler/lib/css/style.css";
+
+import withDragDropContext from "../calendar/components/WithDndContext";
+
 const styles = theme => ({
     dropdown: {
         justifyContent: 'space-between',
@@ -43,6 +56,26 @@ const styles = theme => ({
 
 class GradHome extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            newReservation: [],
+            new: false
+        };
+    }
+
+    componentDidMount = () => {
+        this.props.loadAgendaData();
+    }
+
+
+    prevClick = () => { this.props.prevClick() }
+    nextClick = () => { this.props.nextClick() }
+    onViewChange = (schedulerData, view) => { this.props.onViewChange(schedulerData, view) }
+    onSelectDate = (schedulerData, date) => { this.props.onSelectDate(schedulerData, date) }
+    newEvent = (schedulerData, slotId, slotName, start, end, type, item) => { this.props.newEvent(schedulerData, slotId, slotName, start, end, type, item); }
+
+
     onLogoutClick = e => {
         e.preventDefault();
         this.props.logoutUser();
@@ -50,7 +83,6 @@ class GradHome extends Component {
 
     render() {
         const { classes } = this.props;
-        //const { user } = this.props.auth;
 
         const logout = (
             <div>
@@ -71,13 +103,23 @@ class GradHome extends Component {
                             Reservations
                         </Typography>
                     </Grid>
-                                        {/* <Grid className={classes.calendar} container item xs={12}> */}
-                                        <Card className={classes.card}>
+                    {/* <Grid className={classes.calendar} container item xs={12}> */}
+                    <Card className={classes.card}>
                         <CardContent>
                             <Typography>Step 1. Reserve Time on a Machine</Typography>
                             <p>Click and drag on the calendar to reserve time on a given machine below. You may only make one reservation at a time.</p>
                         </CardContent>
-                        <Calendar/>
+                        <Scheduler
+                            schedulerData={this.props.viewModel}
+                            prevClick={this.prevClick}
+                            nextClick={this.nextClick}
+                            onSelectDate={this.onSelectDate}
+                            onViewChange={this.onViewChange}
+                            newEvent={this.newEvent}
+                            onScrollTop={this.onScrollTop}
+                            onScrollBottom={this.onScrollBottom}
+                            toggleExpandFunc={this.toggleExpandFunc}
+                        />
                     </Card>
                     <Card className={classes.card}>
                         <CardContent>
@@ -108,10 +150,12 @@ GradHome.propTypes = {
 };
 
 const mapStateToProps = state => ({
+    viewModel: state.schedulerData,
     auth: state.auth
-  });
+});
 
 export default compose(
     withStyles(styles),
-    connect(mapStateToProps, { logoutUser })
+    connect(mapStateToProps, { logoutUser, prevClick, nextClick, onViewChange, onSelectDate, newEvent, loadAgendaData }),
+    withDragDropContext
 )(GradHome);

@@ -27,6 +27,19 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import clsx from 'clsx';
 
+import Scheduler from "react-big-scheduler";
+import {
+    prevClick,
+    nextClick,
+    onViewChange,
+    onSelectDate,
+    newEvent,
+    loadAgendaData
+} from '../../actions/schedulerActions';
+import "react-big-scheduler/lib/css/style.css";
+
+import withDragDropContext from "../calendar/components/WithDndContext";
+
 import muiTheme from '../../theme/muiTheme';
 
 const styles = theme => ({
@@ -50,17 +63,36 @@ const styles = theme => ({
 
 class UndergradHome extends Component {
 
-    state = { message: "" }
+    constructor(props) {
+        super(props);
+        this.state = {
+          newRes: [],
+        };
+      }
 
-    callbackFunction = (childData) => {
-        this.setState({message: childData})
-        console.log(this.state.message)
-    };
+    getReservation(item) {
+        this.setState({newRes: item})
+        console.log(this.state.newRes)
+    }
+
+    componentDidMount = () => {
+        this.props.loadAgendaData();
+    }
+
+
+    prevClick = () => { this.props.prevClick() }
+    nextClick = () => { this.props.nextClick() }
+    onViewChange = (schedulerData, view) => { this.props.onViewChange(schedulerData, view) }
+    onSelectDate = (schedulerData, date) => { this.props.onSelectDate(schedulerData, date) }
+    newEvent = (schedulerData, slotId, slotName, start, end, type, item) => { this.props.newEvent(schedulerData, slotId, slotName, start, end, type, item); }
+
 
     onLogoutClick = e => {
         e.preventDefault();
         this.props.logoutUser();
     };
+
+    onNewEvent
 
     render() {
         const { classes } = this.props;
@@ -90,7 +122,21 @@ class UndergradHome extends Component {
                             <Typography>Step 1. Reserve Time on a Machine</Typography>
                             <p>Click and drag on the calendar to reserve time on a given machine below. You may only make one reservation at a time.</p>
                         </CardContent>
-                        <Calendar parentCallback = {this.callbackFunction}/>
+                        {/* <Scheduler
+                            schedulerData={this.props.viewModel}
+                            prevClick={this.prevClick}
+                            nextClick={this.nextClick}
+                            onSelectDate={this.onSelectDate}
+                            onViewChange={this.onViewChange}
+                            newEvent={this.newEvent}
+                            onScrollTop={this.onScrollTop}
+                            onScrollBottom={this.onScrollBottom}
+                            toggleExpandFunc={this.toggleExpandFunc}
+                        /> */}
+                        <Calendar data={
+                            {newRes: this.state.newRes, 
+                            getReservation: this.getReservation.bind(this)}
+                        }/>
                     </Card>
                     <Card className={classes.card}>
                         <CardContent>
@@ -121,12 +167,13 @@ UndergradHome.propTypes = {
 };
 
 const mapStateToProps = state => ({
+    viewModel: state.schedulerData,
     auth: state.auth
 });
 
-//export default withStyles(styles)(UndergradHome);
-//export default connect( mapStateToProps, { logoutUser })(UndergradHome);
+
 export default compose(
     withStyles(styles),
-    connect(mapStateToProps, { logoutUser })
+    connect(mapStateToProps, { logoutUser, prevClick, nextClick, onViewChange, onSelectDate, newEvent, loadAgendaData }),
+    withDragDropContext
 )(UndergradHome);

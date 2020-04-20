@@ -31,7 +31,6 @@ class ViewOnlyCalendar extends Component {
   nextClick = () => { this.props.nextClick() }
   onViewChange = ( schedulerData, view ) => { this.props.onViewChange(schedulerData, view) }
   onSelectDate = ( schedulerData, date ) => { this.props.onSelectDate(schedulerData, date) }
-
   render() {
     return (
       <div>

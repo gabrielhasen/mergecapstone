@@ -43,9 +43,10 @@ export default function(state = new SchedulerData(today, ViewTypes.Day, false, f
             return tempScheduler;
 
         case ON_VIEW_CHANGE:
-            tempScheduler.setViewType(action.payload.viewType);
+            tempScheduler.setViewType(action.payload.viewType, action.payload.showAgenda, action.payload.isEventPerspective);
             tempScheduler.setResources(state.resources);
             tempScheduler.setEvents(state.events);
+            console.log(tempScheduler)
             return tempScheduler;
 
         case ON_SELECT_DATE:
@@ -55,23 +56,11 @@ export default function(state = new SchedulerData(today, ViewTypes.Day, false, f
             return tempScheduler;
 
         case NEW_EVENT:
+            tempScheduler.setEvents(state.events);
             if(tempScheduler.viewType === 0)
             {
-                var today = moment().format("YYYY-MM-DD HH:mm:ss");
-                var dayAhead = moment().add(1, 'Day').format("YYYY-MM-DD HH:mm:ss");
-                console.log(dayAhead);
-                if(moment(action.payload.start).isBefore(today))    
-                {
-                    window.confirm("Not a valid reservation time.");
-                    tempScheduler.setEvents(state.events);
-                }
-                else if(moment(action.payload.start).isBefore(dayAhead))
-                {
-                    window.confirm("Reservations cannot be scheduled less than 24 hours in advanced.");
-                    tempScheduler.setEvents(state.events);
-                }
-                else if(window.confirm(`Create reservation for ${action.payload.slotName} from ${action.payload.start} to ${action.payload.end}?`))
-                {
+                // if(window.confirm(`Create reservation for ${action.payload.slotName} from ${action.payload.start} to ${action.payload.end}?`))
+                // {
                     let newFreshId = 0;
                     tempScheduler.events.forEach((item) => {
                         if(item.id >= newFreshId)
@@ -88,7 +77,9 @@ export default function(state = new SchedulerData(today, ViewTypes.Day, false, f
                     }
                     //Should probably fix?
                     tempScheduler.addEvent(newEvent);
-                }
+                //}
+                // else
+                // { tempScheduler.setEvents(state.events); }
             }
             tempScheduler.setResources(state.resources);
             return tempScheduler;
