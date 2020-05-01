@@ -27,6 +27,15 @@ router.post("/newMachine", (req, res) => {
     });
   });
 
+router.post("/findMachine", (req, res) => {
+  console.log(req.body);
+  Machine.findOne({ id: req.body.resourceId }).then(machine => {
+    if(machine) {
+      return res.json(machine);
+    } 
+  });
+});
+
 router.patch("/update", (req, res) => {
   let machineFields = {};
 

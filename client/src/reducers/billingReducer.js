@@ -35,14 +35,14 @@ export default function(state = initialState, action)
             return {
                 ...state,
                 codes: [action.payload, ...state.codes]
-            }
+            };
 
         case FIND_CODE:
             return {
                 ...state,
                 codes: action.payload,
                 success: true
-            }
+            };
 
         default:
             return state;

@@ -32,7 +32,7 @@ const ReservationSchema = new Schema ({
     machine: {
         type: Schema.Types.ObjectId,
         ref: "machines",
-        //required: true
+        required: true
     },
     title: {
         type: String,

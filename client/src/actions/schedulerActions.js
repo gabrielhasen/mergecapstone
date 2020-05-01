@@ -5,11 +5,8 @@ import {
     ON_VIEW_CHANGE,
     ON_SELECT_DATE,
     NEW_EVENT,
-    ON_SCROLL_RIGHT,
-    ON_SCROLL_LEFT
 } from "./types";
 import axios from 'axios';
-import moment from 'moment';
 
 export const prevClick = () => {
     return {

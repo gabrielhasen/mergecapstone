@@ -12,7 +12,7 @@ export default {
 
     views: [
         { viewName: 'Day', viewType: ViewTypes.Day, showAgenda: false, isEventPerspective: false },
-        { viewName: 'Week', viewType: ViewTypes.Week, showAgenda: false, isEventPerspective: false },
-        { viewName: 'Month', viewType: ViewTypes.Month, showAgenda: false, isEventPerspective: false },
+        // { viewName: 'Week', viewType: ViewTypes.Week, showAgenda: false, isEventPerspective: false },
+        // { viewName: 'Month', viewType: ViewTypes.Month, showAgenda: false, isEventPerspective: false },
     ]
 }

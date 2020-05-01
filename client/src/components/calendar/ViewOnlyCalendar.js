@@ -1,9 +1,5 @@
 import React, { Component } from "react";
-import Scheduler, {
-  SchedulerData,
-  ViewTypes,
-  DATE_FORMAT
-} from "react-big-scheduler";
+import Scheduler from "react-big-scheduler";
 import { 
   prevClick,
   nextClick,
@@ -23,7 +19,7 @@ const mapStateToProps = state => {
 };
 
 class ViewOnlyCalendar extends Component {
-  componentDidMount= () => {
+  componentDidMount() {
     this.props.loadAgendaData();
   }
 

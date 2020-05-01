@@ -48,7 +48,7 @@ export const findCode = code => dispatch => {
                 type: GET_ERRORS,
                 payload: err.response.data
             }));
-}
+};
 
 //Delete a Billing Code
 export const deleteCode = id => dispatch => {

@@ -52,7 +52,7 @@ class UndergradAccount extends Component {
                 { title: 'Start Date', field: 'start' },
                 { title: 'End Date', field: 'end' },
                 { title: 'Graduate', field: 'grad.name' },
-                { title: 'Machine ID', field: 'resourceId' },
+                { title: 'Machine', field: 'machine.name' },
                 { title: 'Billing Code', field: 'billingCode.code' }
             ]
         }

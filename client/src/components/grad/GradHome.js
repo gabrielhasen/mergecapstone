@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { logoutUser } from "../../actions/authActions";
 import { findCode } from "../../actions/billingActions";
 import { createReservation } from "../../actions/upcomingResActions";
+import { findMachine } from '../../actions/machineActions';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
@@ -62,20 +63,24 @@ class GradHome extends Component {
     onSubmit = e => {
         e.preventDefault();
 
-        if (this.state.newRes.resFlg) { this.props.findCode(this.state); }
+        if (this.state.newRes.resFlg) 
+        { 
+            this.props.findCode(this.state); 
+            this.props.findMachine(this.state.newRes.newRes);
+        }
         else { window.confirm("Please select a reservation time."); }
     }
 
-    submitReservation(code) {
+    submitReservation(code, machine) {
         const reservation = {
             user: this.state.newRes.newRes.user,
             id: this.state.newRes.newRes.id,
             start: this.state.newRes.newRes.start,
             end: this.state.newRes.newRes.end,
             resourceId: this.state.newRes.newRes.resourceId,
+            machine: machine,
             billingCode: code
-        }
-
+        };
         this.props.createReservation(reservation);
         this.setState({
             refresh: true
@@ -87,8 +92,8 @@ class GradHome extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.codes.success && nextProps.codes.codes._id !== undefined) {
-            this.submitReservation(nextProps.codes.codes._id);
+        if (nextProps.codes.success && nextProps.codes.codes._id !== undefined && nextProps.machines.machines._id !== undefined) {
+            this.submitReservation(nextProps.codes.codes._id, nextProps.machines.machines._id);
         }
 
         if (nextProps.upcomingreservations !== undefined && this.state.refresh) {
@@ -116,7 +121,7 @@ class GradHome extends Component {
     render() {
         const { classes } = this.props;
         const { errors } = this.state;
-        const { codes, findCode } = this.props.codes;
+        //const { codes, findCode } = this.props.codes;
 
         const logout = (
             <div>
@@ -168,6 +173,15 @@ class GradHome extends Component {
                                             })}
                                         />
                                     </div>
+                                    {/* <div>
+                                        <TextField
+                                            required
+                                            id="descr"
+                                            label="Description"
+                                            value={this.state.code}
+                                            onChange={this.onChange}
+                                        />
+                                    </div> */}
                                 </Typography>
                             </CardContent>
                             <CardActions>
@@ -191,6 +205,7 @@ GradHome.propTypes = {
 
 const mapStateToProps = state => ({
     auth: state.auth,
+    machines: state.machines,
     codes: state.codes,
     errors: state.errors,
     upcomingreservations: state.upcomingreservations
@@ -198,5 +213,5 @@ const mapStateToProps = state => ({
 
 export default compose(
     withStyles(styles),
-    connect(mapStateToProps, { logoutUser, findCode, createReservation })
+    connect(mapStateToProps, { logoutUser, findCode, createReservation, findMachine })
 )(GradHome);

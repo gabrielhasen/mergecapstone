@@ -5,13 +5,13 @@ import { connect } from "react-redux";
 import { logoutUser } from "../../actions/authActions";
 import { findCode } from "../../actions/billingActions";
 import { createReservation } from "../../actions/upcomingResActions";
+import { findMachine } from '../../actions/machineActions';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import TextField from '@material-ui/core/TextField';
-import moment from 'moment';
 
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -24,12 +24,7 @@ import { mainListItems } from '../menu/routes/UndergradRoutes';
 import { Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 import classnames from "classnames";
-import clsx from 'clsx';
-
 import muiTheme from '../../theme/muiTheme';
 
 const styles = theme => ({
@@ -69,20 +64,24 @@ class UndergradHome extends Component {
     onSubmit = e => {
         e.preventDefault();
 
-        if (this.state.newRes.resFlg) { this.props.findCode(this.state); }
+        if (this.state.newRes.resFlg) 
+        { 
+            this.props.findCode(this.state); 
+            this.props.findMachine(this.state.newRes.newRes);
+        }
         else { window.confirm("Please select a reservation time."); }
     }
 
-    submitReservation(code) {
+    submitReservation(code, machine) {
         const reservation = {
             user: this.state.newRes.newRes.user,
             id: this.state.newRes.newRes.id,
             start: this.state.newRes.newRes.start,
             end: this.state.newRes.newRes.end,
             resourceId: this.state.newRes.newRes.resourceId,
+            machine: machine,
             billingCode: code
-        }
-
+        };
         this.props.createReservation(reservation);
         this.setState({
             refresh: true
@@ -94,8 +93,8 @@ class UndergradHome extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.codes.success && nextProps.codes.codes._id !== undefined) {
-            this.submitReservation(nextProps.codes.codes._id);
+        if (nextProps.codes.success && nextProps.codes.codes._id !== undefined && nextProps.machines.machines._id !== undefined) {
+            this.submitReservation(nextProps.codes.codes._id, nextProps.machines.machines._id);
         }
 
         if (nextProps.upcomingreservations !== undefined && this.state.refresh) {
@@ -124,7 +123,7 @@ class UndergradHome extends Component {
     render() {
         const { classes } = this.props;
         const { errors } = this.state;
-        const { codes, findCode } = this.props.codes;
+        //const { codes, findCode } = this.props.codes;
 
         const logout = (
             <div>
@@ -165,6 +164,15 @@ class UndergradHome extends Component {
                                     <div>
                                         <TextField
                                             required
+                                            id="grad"
+                                            label="Graduate Student"
+                                            value={this.state.graduate}
+                                            onChange={this.onChange}
+                                        />
+                                    </div>
+                                    <div>
+                                        <TextField
+                                            required
                                             id="code"
                                             label="Billing Code"
                                             value={this.state.code}
@@ -176,6 +184,15 @@ class UndergradHome extends Component {
                                             })}
                                         />
                                     </div>
+                                    {/* <div>
+                                        <TextField
+                                            required
+                                            id="descr"
+                                            label="Description"
+                                            value={this.state.code}
+                                            onChange={this.onChange}
+                                        />
+                                    </div> */}
                                 </Typography>
                             </CardContent>
                             <CardActions>
@@ -199,6 +216,7 @@ UndergradHome.propTypes = {
 
 const mapStateToProps = state => ({
     auth: state.auth,
+    machines: state.machines,
     codes: state.codes,
     errors: state.errors,
     upcomingreservations: state.upcomingreservations
@@ -207,5 +225,5 @@ const mapStateToProps = state => ({
 
 export default compose(
     withStyles(styles),
-    connect(mapStateToProps, { logoutUser, findCode, createReservation }),
+    connect(mapStateToProps, { logoutUser, findCode, createReservation, findMachine }),
 )(UndergradHome);

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Scheduler, { SchedulerData } from "react-big-scheduler";
+import Scheduler from "react-big-scheduler";
 import {
   prevClick,
   nextClick,

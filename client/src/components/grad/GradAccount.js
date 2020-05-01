@@ -51,7 +51,8 @@ class GradAccount extends Component {
             columns: [
                 { title: 'Start Date', field: 'start' },
                 { title: 'End Date', field: 'end' },
-                { title: 'Machine ID', field: 'resourceId' },
+                { title: 'Student', field: 'student' },
+                { title: 'Machine', field: 'machine.name' },
                 { title: 'Billing Code', field: 'billingCode.code' }
             ]
         }

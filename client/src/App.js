@@ -16,11 +16,9 @@ import PrivateAdminRoute from "./components/private-route/PrivateAdminRoute";
 
 import UndergradHome from "./components/undergrad/UndergradHome";
 import UndergradAccount from "./components/undergrad/UndergradAccount";
-import Reservation from "./components/undergrad/reservation/Reservation";
 
 import GradHome from "./components/grad/GradHome";
 import GradAccount from "./components/grad/GradAccount";
-import GradReservation from "./components/grad/reservation/GradReservation";
 
 import ManageReservations from './components/admin/ManageReservations';
 import ManageMachines from './components/admin/ManageMachines';
@@ -60,11 +58,9 @@ class App extends Component {
             <Switch>
               <PrivateUndergradRoute exact path="/home" component={UndergradHome} />
               <PrivateUndergradRoute exact path="/account" component={UndergradAccount} />
-              <PrivateUndergradRoute exact path="/u-reservations" component={Reservation} />
 
               <PrivateGradRoute exact path="/ghome" component={GradHome} />
               <PrivateGradRoute exact path="/gaccount" component={GradAccount} />
-              <PrivateGradRoute exact path="/g-reservations" component={GradReservation}/>
 
               <PrivateAdminRoute exact path="/manage-reservations" component={ManageReservations} />
               <PrivateAdminRoute exact path="/manage-machines" component={ManageMachines} />
