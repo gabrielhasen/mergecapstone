@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { GET_USERS, UPDATE_USER, USERS_LOADING } from './types';
+import { GET_USERS, UPDATE_USER, USERS_LOADING, GET_GRADS } from './types';
 
 //Get all Users
 export const getUsers = () => dispatch => {
@@ -16,6 +16,24 @@ export const getUsers = () => dispatch => {
         .catch(err =>
             dispatch({
                 type: GET_USERS,
+                payload: null
+            })
+        );
+};
+
+export const getGrads = () => dispatch => {
+    dispatch(getUsersLoading());
+    axios   
+        .get('/api/users/getGraduates')
+        .then(res =>
+            dispatch({
+                type: GET_GRADS,
+                payload: res.data.user
+            })
+        )
+        .catch(err =>
+            dispatch({
+                type: GET_GRADS,
                 payload: null
             })
         );

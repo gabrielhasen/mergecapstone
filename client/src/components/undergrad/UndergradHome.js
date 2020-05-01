@@ -6,6 +6,7 @@ import { logoutUser } from "../../actions/authActions";
 import { findCode } from "../../actions/billingActions";
 import { createReservation } from "../../actions/upcomingResActions";
 import { findMachine } from '../../actions/machineActions';
+import { getGrads } from '../../actions/userActions';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
@@ -26,6 +27,7 @@ import { withStyles } from '@material-ui/core/styles';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import classnames from "classnames";
 import muiTheme from '../../theme/muiTheme';
+import Select from 'react-select';
 
 const styles = theme => ({
     dropdown: {
@@ -52,8 +54,10 @@ class UndergradHome extends Component {
         super(props);
         this.state = {
             newRes: [],
+            grads: {},
             refresh: false,
-            errors: {}
+            errors: {},
+            value: []
         };
     }
 
@@ -64,9 +68,8 @@ class UndergradHome extends Component {
     onSubmit = e => {
         e.preventDefault();
 
-        if (this.state.newRes.resFlg) 
-        { 
-            this.props.findCode(this.state); 
+        if (this.state.newRes.resFlg) {
+            this.props.findCode(this.state);
             this.props.findMachine(this.state.newRes.newRes);
         }
         else { window.confirm("Please select a reservation time."); }
@@ -80,7 +83,8 @@ class UndergradHome extends Component {
             end: this.state.newRes.newRes.end,
             resourceId: this.state.newRes.newRes.resourceId,
             machine: machine,
-            billingCode: code
+            billingCode: code,
+            grad: this.state.value
         };
         this.props.createReservation(reservation);
         this.setState({
@@ -90,6 +94,10 @@ class UndergradHome extends Component {
 
     forceRefresh() {
         window.location.reload();
+    }
+
+    componentDidMount() {
+        this.props.getGrads();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -109,9 +117,15 @@ class UndergradHome extends Component {
         }
     }
 
+    storeGrad = e => {
+        this.setState({ value: e.target.value });
+        console.log(this.state.value);
+    }
+
 
     onChange = e => {
-        this.setState({ [e.target.id]: e.target.value })
+        this.setState({ [e.target.id]: e.target.value });
+        console.log(this.state.value);
     }
 
     onLogoutClick = e => {
@@ -123,7 +137,15 @@ class UndergradHome extends Component {
     render() {
         const { classes } = this.props;
         const { errors } = this.state;
-        //const { codes, findCode } = this.props.codes;
+        const { users, getGrads } = this.props.users;
+        console.log(users);
+
+        let gradList = users.length > 0
+            && users.map((item, i) => {
+                return (
+                    <option key={i} value={item._id}>{item.name}</option>
+                )
+            }, this);
 
         const logout = (
             <div>
@@ -162,13 +184,11 @@ class UndergradHome extends Component {
                                 <Typography>
                                     Step 2. Reservation Information
                                     <div>
-                                        <TextField
-                                            required
-                                            id="grad"
-                                            label="Graduate Student"
-                                            value={this.state.graduate}
-                                            onChange={this.onChange}
-                                        />
+                                        <select
+                                        onChange={this.storeGrad}
+                                        >
+                                            {gradList}
+                                        </select>
                                     </div>
                                     <div>
                                         <TextField
@@ -219,11 +239,12 @@ const mapStateToProps = state => ({
     machines: state.machines,
     codes: state.codes,
     errors: state.errors,
+    users: state.users,
     upcomingreservations: state.upcomingreservations
 });
 
 
 export default compose(
     withStyles(styles),
-    connect(mapStateToProps, { logoutUser, findCode, createReservation, findMachine }),
+    connect(mapStateToProps, { logoutUser, findCode, createReservation, findMachine, getGrads }),
 )(UndergradHome);

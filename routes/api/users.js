@@ -122,6 +122,19 @@ router.get("/getUsers", (req, res) => {
   });
 });
 
+router.get("/getGraduates", (req, res) => {
+  User.find({role: "grad"}, function(err, Users){
+    if (err)
+      return done(err);
+
+    if (Users) {
+      res.send({
+        user: Users
+      })
+    }
+  });
+});
+
 router.patch("/update", (req, res) => {
   let userFields = {};
 

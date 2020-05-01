@@ -9,6 +9,7 @@ export const GET_CODES = "GET_CODES";
 export const CODES_LOADING = "CODES_LOADING";
 export const FIND_CODE = "FIND_CODE";
 
+export const GET_GRADS = "GET_GRADS";
 export const UPDATE_USER = "UPDATE_USER";
 export const GET_USERS = "GET_USERS";
 export const USERS_LOADING = "USERS_LOADING";

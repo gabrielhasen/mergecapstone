@@ -1,15 +1,20 @@
-import { GET_USERS, USERS_LOADING, UPDATE_USER } from '../actions/types';
+import { GET_USERS, USERS_LOADING, UPDATE_USER, GET_GRADS } from '../actions/types';
 
 const initialState = {
     users: [],
     usersLoading: false
 };
 
-export default function(state = initialState, action)
-{
-    switch(action.type)
-    {
+export default function (state = initialState, action) {
+    switch (action.type) {
         case GET_USERS:
+            return {
+                ...state,
+                users: action.payload,
+                usersLoading: false
+            };
+
+        case GET_GRADS:
             return {
                 ...state,
                 users: action.payload,
@@ -24,7 +29,7 @@ export default function(state = initialState, action)
 
             state.users.splice(index, 1);
 
-            return{
+            return {
                 ...state,
                 users: [action.payload, ...state.users]
             };
@@ -36,6 +41,6 @@ export default function(state = initialState, action)
             };
 
         default:
-                return state;
-    }  
+            return state;
+    }
 }
