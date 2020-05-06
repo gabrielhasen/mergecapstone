@@ -5,7 +5,7 @@ import { GET_MACHINES, MACHINES_LOADING, CREATE_MACHINE, DELETE_MACHINE, UPDATE_
 //Get all machines
 export const getMachines = () => dispatch => {
     dispatch(getMachinesLoading());
-    axios   
+    axios
         .get('/api/machines/getAll')
         .then(res =>
             dispatch({
@@ -42,7 +42,7 @@ export const findMachine = machine => dispatch => {
                 payload: res.data
             })
         )
-        .catch(err => 
+        .catch(err =>
             dispatch({
                 type: FIND_MACHINE,
                 payload: null
@@ -66,7 +66,7 @@ export const deleteMachine = id => dispatch => {
     axios
         .delete(`/api/machines/delete/${id}`)
         .then(res =>
-            dispatch ({
+            dispatch({
                 type: DELETE_MACHINE,
                 payload: id
             })

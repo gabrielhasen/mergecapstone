@@ -5,7 +5,7 @@ import { GET_USERS, UPDATE_USER, USERS_LOADING, GET_GRADS } from './types';
 //Get all Users
 export const getUsers = () => dispatch => {
     dispatch(getUsersLoading());
-    axios   
+    axios
         .get('/api/users/getUsers')
         .then(res =>
             dispatch({
@@ -23,7 +23,7 @@ export const getUsers = () => dispatch => {
 
 export const getGrads = () => dispatch => {
     dispatch(getUsersLoading());
-    axios   
+    axios
         .get('/api/users/getGraduates')
         .then(res =>
             dispatch({
@@ -43,7 +43,7 @@ export const updateUser = userData => dispatch => {
     console.log(userData)
     axios
         .patch("api/users/update", userData)
-        .then(res => 
+        .then(res =>
             dispatch({
                 type: UPDATE_USER,
                 payload: res.data

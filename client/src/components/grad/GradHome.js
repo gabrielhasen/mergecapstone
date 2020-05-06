@@ -63,9 +63,8 @@ class GradHome extends Component {
     onSubmit = e => {
         e.preventDefault();
 
-        if (this.state.newRes.resFlg) 
-        { 
-            this.props.findCode(this.state); 
+        if (this.state.newRes.resFlg) {
+            this.props.findCode(this.state);
             this.props.findMachine(this.state.newRes.newRes);
         }
         else { window.confirm("Please select a reservation time."); }
@@ -155,7 +154,7 @@ class GradHome extends Component {
                         } />
                     </Card>
                     <Card className={classes.card}>
-                    <form noValidate onSubmit={this.onSubmit}>
+                        <form noValidate onSubmit={this.onSubmit}>
                             <CardContent>
                                 <Typography>
                                     Step 2. Reservation Information

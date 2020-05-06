@@ -51,17 +51,20 @@ class App extends Component {
       <Provider store={store}>
         <Router>
           <div className="App">
-            {/* //<Navbar /> */}
+            {/* Logged Out Routes */}
             <Route exact path="/" component={Landing} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
             <Switch>
+              {/* Undergrad Routes */}
               <PrivateUndergradRoute exact path="/home" component={UndergradHome} />
               <PrivateUndergradRoute exact path="/account" component={UndergradAccount} />
 
+              {/* Graduate Routes */}
               <PrivateGradRoute exact path="/ghome" component={GradHome} />
               <PrivateGradRoute exact path="/gaccount" component={GradAccount} />
 
+              {/* Admin Routes */}
               <PrivateAdminRoute exact path="/manage-reservations" component={ManageReservations} />
               <PrivateAdminRoute exact path="/manage-machines" component={ManageMachines} />
               <PrivateAdminRoute exact path="/manage-users" component={ManageUsers} />

@@ -22,7 +22,7 @@ export const getPastReservations = () => dispatch => {
 
 export const getPastResID = id => dispatch => {
     dispatch(setPastReservationsLoading());
-    axios   
+    axios
         .get(`/api/reservations/past/${id}`)
         .then(res =>
             dispatch({

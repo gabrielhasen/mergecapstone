@@ -108,9 +108,11 @@ router.post("/login", (req, res) => {
   });
 });
 
-// Attempt to get users for Material-table
+// @route GET api/users/getUsers
+// @desc Get all users (admin view)
+// @access Public -> Should be made private
 router.get("/getUsers", (req, res) => {
-  User.find({}, function(err, Users){
+  User.find({}, function (err, Users) {
     if (err)
       return done(err);
 
@@ -122,8 +124,11 @@ router.get("/getUsers", (req, res) => {
   });
 });
 
+// @route GET api/users/getGraduates
+// @desc Get all grad role users (undergrad view)
+// @access Public -> Should be private
 router.get("/getGraduates", (req, res) => {
-  User.find({role: "grad"}, function(err, Users){
+  User.find({ role: "grad" }, function (err, Users) {
     if (err)
       return done(err);
 
@@ -135,6 +140,9 @@ router.get("/getGraduates", (req, res) => {
   });
 });
 
+// @route PATCH api/users/update
+// @desc Update user role (admin view)
+// @access Public -> Should be private
 router.patch("/update", (req, res) => {
   let userFields = {};
 
@@ -145,10 +153,10 @@ router.patch("/update", (req, res) => {
     { $set: userFields },
     { new: true }
   )
-  .then(user => {
-    res.json(user);
-  })
-  .catch(err => console.log(err));
+    .then(user => {
+      res.json(user);
+    })
+    .catch(err => console.log(err));
 }
 );
 

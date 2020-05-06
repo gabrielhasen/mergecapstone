@@ -1,4 +1,4 @@
-import { 
+import {
     LOAD_AGENDA_DATA,
     PREV_CLICK,
     NEXT_CLICK,
@@ -21,23 +21,23 @@ export const nextClick = () => {
 };
 
 export const onViewChange = (schedulerData, view) => {
-    return({
+    return ({
         type: ON_VIEW_CHANGE,
         payload: view
     });
 };
 
 export const onSelectDate = (schedulerData, date) => {
-    return({
+    return ({
         type: ON_SELECT_DATE,
         payload: date
     });
 };
 
 export const newEvent = (schedulerData, slotId, slotName, start, end, type, item) => {
-    return({
+    return ({
         type: NEW_EVENT,
-        payload: {schedulerData, slotId, slotName, start, end, type, item}
+        payload: { schedulerData, slotId, slotName, start, end, type, item }
     });
 };
 

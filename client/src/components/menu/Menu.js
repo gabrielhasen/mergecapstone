@@ -43,7 +43,7 @@ const Menu = props => {
     <div className={clsx({
       [classes.root]: true
     })}>
-      <CssBaseline /> 
+      <CssBaseline />
 
       <Topbar onDrawerOpen={handleDrawerOpen} isOpen={open} />
 

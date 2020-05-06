@@ -5,10 +5,8 @@ const initialState = {
     upcomingreservationsLoading: false
 };
 
-export default function(state = initialState, action)
-{
-    switch(action.type)
-    {
+export default function (state = initialState, action) {
+    switch (action.type) {
         case NEW_RESERVATION:
             return {
                 ...state,

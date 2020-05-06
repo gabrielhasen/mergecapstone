@@ -11,8 +11,8 @@ const PrivateAdminRoute = ({ component: Component, auth, ...rest }) => (
       (auth.isAuthenticated === true && auth.user.role === "undergrad") ? (
         <Component {...props} />
       ) : (
-        <Redirect to="/login" />
-      )
+          <Redirect to="/login" />
+        )
     }
   />
 );

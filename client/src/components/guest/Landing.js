@@ -32,16 +32,16 @@ class Landing extends Component {
 
     return (
       <MuiThemeProvider theme={muiTheme}>
-      <Menu mainList={mainListItems} secondList={secondaryListItems}>
+        <Menu mainList={mainListItems} secondList={secondaryListItems}>
           <Grid className={classes.dropdown} container item xs={12}>
             <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
               Reservations
             </Typography>
           </Grid>
-        <Grid className={classes.calendar} container item xs={12}>
+          <Grid className={classes.calendar} container item xs={12}>
             <ViewOnlyCalendar />
-        </Grid>
-      </Menu>
+          </Grid>
+        </Menu>
       </MuiThemeProvider>
     );
   }

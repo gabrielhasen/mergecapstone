@@ -5,7 +5,7 @@ import { GET_CODES, CODES_LOADING, DELETE_CODE, CREATE_CODE, FIND_CODE, GET_ERRO
 //Get All Billing Codes
 export const getCodes = () => dispatch => {
     dispatch(setCodesLoading());
-    axios   
+    axios
         .get('/api/billingcodes/getCodes')
         .then(res =>
             dispatch({
@@ -43,7 +43,7 @@ export const findCode = code => dispatch => {
                 payload: res.data
             })
         )
-        .catch(err => 
+        .catch(err =>
             dispatch({
                 type: GET_ERRORS,
                 payload: err.response.data
@@ -52,7 +52,7 @@ export const findCode = code => dispatch => {
 
 //Delete a Billing Code
 export const deleteCode = id => dispatch => {
-    axios   
+    axios
         .delete(`/api/billingcodes/delete/${id}`)
         .then(res =>
             dispatch({

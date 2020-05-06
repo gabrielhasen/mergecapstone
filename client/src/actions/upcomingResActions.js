@@ -39,7 +39,7 @@ export const getUpcomingReservations = () => dispatch => {
 
 export const getUpcomingResID = id => dispatch => {
     dispatch(setReservationsLoading());
-    axios   
+    axios
         .get(`/api/reservations/upcoming/${id}`)
         .then(res =>
             dispatch({
@@ -56,7 +56,7 @@ export const getUpcomingResID = id => dispatch => {
 };
 
 export const deleteReservation = id => dispatch => {
-    axios   
+    axios
         .delete(`api/reservations/delete/${id}`)
         .then(res =>
             dispatch({

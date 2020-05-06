@@ -42,31 +42,31 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Topbar = props => {
-    const{ className, onDrawerOpen, isOpen, ...rest } = props;
-    const classes = useStyles();
+  const { className, onDrawerOpen, isOpen, ...rest } = props;
+  const classes = useStyles();
 
-    return(
-        <AppBar
-        {...rest}  // assuming this prings in the rest of the props?
-        position="absolute"
-        className={clsx(className, classes.appBar, isOpen && classes.appBarShift)}
+  return (
+    <AppBar
+      {...rest}  // assuming this prings in the rest of the props?
+      position="absolute"
+      className={clsx(className, classes.appBar, isOpen && classes.appBarShift)}
+    >
+      <Toolbar className={classes.toolbar}>
+        <IconButton
+          edge="start"
+          color="inherit"
+          aria-label="open drawer"
+          onClick={onDrawerOpen}
+          className={clsx(classes.menuButton, isOpen && classes.menuButtonHidden)}
         >
-          <Toolbar className={classes.toolbar}>
-            <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={onDrawerOpen}
-            className={clsx(classes.menuButton, isOpen && classes.menuButtonHidden)}
-            >
-              <MenuOpenIcon />
-            </IconButton> 
-            <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-              Machine Shop
+          <MenuOpenIcon />
+        </IconButton>
+        <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
+          Machine Shop
             </Typography>
-          </Toolbar>
-        </AppBar>
-    );
+      </Toolbar>
+    </AppBar>
+  );
 };
 
 Topbar.propTypes = {

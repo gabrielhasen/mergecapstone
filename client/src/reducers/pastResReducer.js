@@ -5,10 +5,8 @@ const initialState = {
     pastreservationsLoading: false
 };
 
-export default function(state = initialState, action)
-{
-    switch(action.type)
-    {
+export default function (state = initialState, action) {
+    switch (action.type) {
         case GET_PAST_RESERVATIONS:
             return {
                 ...state,
@@ -16,7 +14,7 @@ export default function(state = initialState, action)
                 pastreservationsLoading: false
             };
 
-        case PAST_RESERVATIONS_LOADING :
+        case PAST_RESERVATIONS_LOADING:
             return {
                 ...state,
                 pastreservationsLoading: true

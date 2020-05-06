@@ -185,7 +185,7 @@ class UndergradHome extends Component {
                                     Step 2. Reservation Information
                                     <div>
                                         <select
-                                        onChange={this.storeGrad}
+                                            onChange={this.storeGrad}
                                         >
                                             {gradList}
                                         </select>

@@ -11,66 +11,66 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
-    toolbarIcon: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'flex-end',
-      padding: '0 8px',
-      ...theme.mixins.toolbar,
+  toolbarIcon: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: '0 8px',
+    ...theme.mixins.toolbar,
+  },
+  drawerPaper: {
+    position: 'relative',
+    whiteSpace: 'nowrap',
+    width: drawerWidth,
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  drawerPaperClose: {
+    overflowX: 'hidden',
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    width: theme.spacing(7),
+    [theme.breakpoints.up('sm')]: {
+      width: theme.spacing(9),
     },
-    drawerPaper: {
-      position: 'relative',
-      whiteSpace: 'nowrap',
-      width: drawerWidth,
-      transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-    },
-    drawerPaperClose: {
-      overflowX: 'hidden',
-      transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      width: theme.spacing(7),
-      [theme.breakpoints.up('sm')]: {
-        width: theme.spacing(9),
-      },
-    },
-  }));
+  },
+}));
 
-  const Sidebar = props => {
-      const { onDrawerClose, isOpen, main, second } = props;
-      const classes = useStyles();
+const Sidebar = props => {
+  const { onDrawerClose, isOpen, main, second } = props;
+  const classes = useStyles();
 
-      return(
-          <Drawer
-          variant="permanent"
-          classes={{
-              paper: clsx(classes.drawerPaper, !isOpen && classes.drawerPaperClose),
-          }}
-          open={isOpen}
-          >
-              <div className={classes.toolbarIcon}>
-                  <IconButton onClick={onDrawerClose}>
-                      <ChevronLeftIcon />
-                  </IconButton>
-              </div>
-              <Divider />
-              <List>{main}</List>
-              <Divider />
-              <List>{second}</List>
-          </Drawer>
-      );
-  };
+  return (
+    <Drawer
+      variant="permanent"
+      classes={{
+        paper: clsx(classes.drawerPaper, !isOpen && classes.drawerPaperClose),
+      }}
+      open={isOpen}
+    >
+      <div className={classes.toolbarIcon}>
+        <IconButton onClick={onDrawerClose}>
+          <ChevronLeftIcon />
+        </IconButton>
+      </div>
+      <Divider />
+      <List>{main}</List>
+      <Divider />
+      <List>{second}</List>
+    </Drawer>
+  );
+};
 
-  Sidebar.propTypes = {
-      className: PropTypes.string,
-      onDrawerClose: PropTypes.func,
-      isOpen: PropTypes.bool,
-      main: PropTypes.any.isRequired,
-      second: PropTypes.any.isRequired,
-  }
+Sidebar.propTypes = {
+  className: PropTypes.string,
+  onDrawerClose: PropTypes.func,
+  isOpen: PropTypes.bool,
+  main: PropTypes.any.isRequired,
+  second: PropTypes.any.isRequired,
+}
 
-  export default Sidebar;
+export default Sidebar;

@@ -33,7 +33,7 @@ const tableIcons = {
     NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
     PreviousPage: forwardRef((props, ref) => <ChevronLeft {...props} ref={ref} />),
     Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
-  };
+};
 
 const styles = theme => ({
     dropdown: {
@@ -100,13 +100,13 @@ class UndergradAccount extends Component {
                             data={upcomingreservations}
                             editable={{
                                 onRowDelete: oldData =>
-                                  new Promise((resolve, reject) => {
-                                    setTimeout(() => {
-                                        this.props.deleteReservation(oldData._id)
-                                        resolve()
-                                    }, 1000)
-                                  }),
-                              }}
+                                    new Promise((resolve, reject) => {
+                                        setTimeout(() => {
+                                            this.props.deleteReservation(oldData._id)
+                                            resolve()
+                                        }, 1000)
+                                    }),
+                            }}
                             options={{
                                 exportButton: false,
                                 search: false
