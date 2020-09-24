@@ -1,10 +1,10 @@
-import React, { Component, useEffect } from 'react';
+import React, { Component } from 'react';
 import MaterialTable from 'material-table';
 import { compose } from 'redux';
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "../../actions/authActions";
-import { getUsers } from '../../actions/userActions';
+import { getUsers, updateUser } from '../../actions/userActions';
 import Typography from '@material-ui/core/Typography';
 
 import ListItem from '@material-ui/core/ListItem';
@@ -25,10 +25,8 @@ import FirstPage from '@material-ui/icons/FirstPage';
 import LastPage from '@material-ui/icons/LastPage';
 import DeleteOutline from '@material-ui/icons/DeleteOutline';
 import muiTheme from '../../theme/muiTheme';
-import axios from "axios";
 
 const tableIcons = {
-    //DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
     FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
     LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
     NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
@@ -42,15 +40,6 @@ const styles = theme => ({
         padding: theme.spacing(4)
     },
 });
-
-// export const updateRole = (data) =>{
-//     axios
-//       .post("/api/users/updateRole", data)
-//     //   .then(res => history.push("/login"))
-//       .catch(function (error) {
-//         console.log(error);
-//     });
-//   };
 
 class ManageUsers extends Component {
 
@@ -69,22 +58,6 @@ class ManageUsers extends Component {
         this.props.getUsers();
     }
 
-    //Use to Secure maybe?
-    // componentDidMount() {
-    //     axios.get('http://localhost:5000/api/users/getUsers', {
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         }
-    //     })
-    //         .then(res => {
-    //             this.setState({data: res.data.user})
-    //             console.log(this.state.data)
-    //         })
-    //         .catch(function (error) {
-    //             console.log(error);
-    //         })
-    // }
-
     onLogoutClick = e => {
         e.preventDefault();
         this.props.logoutUser();
@@ -94,7 +67,6 @@ class ManageUsers extends Component {
     render() {
         const { classes } = this.props;
         const { users, getUsers } = this.props.users;
-        //console.log(this.state.data.user)
 
         const logout = (
             <div>
@@ -118,20 +90,14 @@ class ManageUsers extends Component {
                     <Grid className={classes.dropdown} item xs={12}>
                         <MaterialTable
                             title="All Users"
+                            icons={tableIcons}
                             columns={this.state.columns}
-                            //data={this.state.data}
                             data={users}
                             editable={{
                                 onRowUpdate: (newData, oldData) =>
                                     new Promise((resolve, reject) => {
                                         setTimeout(() => {
-                                            {
-                                                const data = this.state.data;
-                                                const index = data.indexOf(oldData);
-                                                data[index] = newData;
-                                                console.log(newData)
-                                                this.setState({ data }, () => resolve());
-                                            }
+                                            this.props.updateUser(newData);
                                             resolve()
                                         }, 1000)
                                     }),
@@ -161,5 +127,5 @@ const mapStateToProps = state => ({
 
 export default compose(
     withStyles(styles),
-    connect(mapStateToProps, { logoutUser, getUsers })
+    connect(mapStateToProps, { logoutUser, getUsers, updateUser })
 )(ManageUsers);

@@ -6,7 +6,8 @@ import IconButton from '@material-ui/core/IconButton';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import MenuIcon from '@material-ui/icons/Menu';
+//import HomeIcon from '@material-ui/icons/Home';
+import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 
 const drawerWidth = 240;
 
@@ -41,31 +42,31 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Topbar = props => {
-    const{ className, onDrawerOpen, isOpen, ...rest } = props;
-    const classes = useStyles();
+  const { className, onDrawerOpen, isOpen, ...rest } = props;
+  const classes = useStyles();
 
-    return(
-        <AppBar
-        {...rest}  // assuming this prings in the rest of the props?
-        position="absolute"
-        className={clsx(className, classes.appBar, isOpen && classes.appBarShift)}
+  return (
+    <AppBar
+      {...rest}  // assuming this prings in the rest of the props?
+      position="absolute"
+      className={clsx(className, classes.appBar, isOpen && classes.appBarShift)}
+    >
+      <Toolbar className={classes.toolbar}>
+        <IconButton
+          edge="start"
+          color="inherit"
+          aria-label="open drawer"
+          onClick={onDrawerOpen}
+          className={clsx(classes.menuButton, isOpen && classes.menuButtonHidden)}
         >
-          <Toolbar className={classes.toolbar}>
-            <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={onDrawerOpen}
-            className={clsx(classes.menuButton, isOpen && classes.menuButtonHidden)}
-            >
-              <MenuIcon />
-            </IconButton> 
-            <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-              Machine Shop
+          <MenuOpenIcon />
+        </IconButton>
+        <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
+          Machine Shop
             </Typography>
-          </Toolbar>
-        </AppBar>
-    );
+      </Toolbar>
+    </AppBar>
+  );
 };
 
 Topbar.propTypes = {

@@ -79,6 +79,7 @@ router.post("/login", (req, res) => {
         // User matched
         // Create JWT Payload
         const payload = {
+          _id: user._id,
           id: user.id,
           name: user.name,
           role: user.role
@@ -107,9 +108,11 @@ router.post("/login", (req, res) => {
   });
 });
 
-// Attempt to get users for Material-table
+// @route GET api/users/getUsers
+// @desc Get all users (admin view)
+// @access Public -> Should be made private
 router.get("/getUsers", (req, res) => {
-  User.find({}, function(err, Users){
+  User.find({}, function (err, Users) {
     if (err)
       return done(err);
 
@@ -121,10 +124,40 @@ router.get("/getUsers", (req, res) => {
   });
 });
 
-// router.post("/updateRole", (req, res) => {
-//   User.findOne({_id: req.body._id}, {
-//     role: 
-//   })
-// });
+// @route GET api/users/getGraduates
+// @desc Get all grad role users (undergrad view)
+// @access Public -> Should be private
+router.get("/getGraduates", (req, res) => {
+  User.find({ role: "grad" }, function (err, Users) {
+    if (err)
+      return done(err);
+
+    if (Users) {
+      res.send({
+        user: Users
+      })
+    }
+  });
+});
+
+// @route PATCH api/users/update
+// @desc Update user role (admin view)
+// @access Public -> Should be private
+router.patch("/update", (req, res) => {
+  let userFields = {};
+
+  userFields.role = req.body.role;
+
+  User.findOneAndUpdate(
+    { _id: req.body._id },
+    { $set: userFields },
+    { new: true }
+  )
+    .then(user => {
+      res.json(user);
+    })
+    .catch(err => console.log(err));
+}
+);
 
 module.exports = router;

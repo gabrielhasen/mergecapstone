@@ -4,6 +4,8 @@ import { compose } from 'redux';
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "../../actions/authActions";
+import { getUpcomingReservations, deleteReservation } from "../../actions/upcomingResActions";
+import { getPastReservations } from "../../actions/pastResActions"
 import Typography from '@material-ui/core/Typography';
 
 import ListItem from '@material-ui/core/ListItem';
@@ -25,8 +27,8 @@ import LastPage from '@material-ui/icons/LastPage';
 import DeleteOutline from '@material-ui/icons/DeleteOutline';
 import muiTheme from '../../theme/muiTheme';
 
+
 const tableIcons = {
-    //DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
     FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
     LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
     NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
@@ -44,6 +46,25 @@ const styles = theme => ({
 
 class ManageReservations extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            columns: [
+                { title: 'Start Date', field: 'start' },
+                { title: 'End Date', field: 'end' },
+                { title: 'User', field: 'user.name' },
+                { title: 'Grad', field: 'grad.name' },
+                { title: 'Machine', field: 'machine.name' },
+                { title: 'Billing Code', field: 'billingCode.code' }
+            ]
+        }
+    }
+
+    componentDidMount() {
+        this.props.getUpcomingReservations();
+        this.props.getPastReservations();
+    }
+
     onLogoutClick = e => {
         e.preventDefault();
         this.props.logoutUser();
@@ -51,6 +72,12 @@ class ManageReservations extends Component {
 
     render() {
         const { classes } = this.props;
+        const { upcomingreservations, getUpcomingReservations } = this.props.upcomingreservations;
+        const { pastreservations, getPastReservations } = this.props.pastreservations;
+        console.log(upcomingreservations);
+
+        // if(moment(reservations.start).isBefore(moment().format("YYYY-MM-DD HH:mm:ss")))
+        // {console.log(reservations);}
 
         const logout = (
             <div>
@@ -75,36 +102,13 @@ class ManageReservations extends Component {
                         <MaterialTable
                             icons={tableIcons}
                             title="Upcoming Reservations"
-                            columns={[
-                                { title: 'Date', field: 'date' },
-                                { title: 'User', field: 'user' },
-                                { title: 'Machine ID', field: 'machine' },
-                                { title: 'Billing Code', field: 'bill', type: 'numeric' },
-                            ]}
-                            data={[
-                                { date: '02-30-2020', user: 'test1234', machine: '01', bill: 12345 },
-                            ]}
+                            columns={this.state.columns}
+                            data={upcomingreservations}
                             editable={{
-                                onRowAdd: newData =>
-                                    new Promise((resolve, reject) => {
-                                        setTimeout(() => {
-                                            {
-                                                const data = this.state.data;
-                                                data.push(newData);
-                                                this.setState({ data }, () => resolve());
-                                            }
-                                            resolve()
-                                        }, 1000)
-                                    }),
                                 onRowDelete: oldData =>
                                     new Promise((resolve, reject) => {
                                         setTimeout(() => {
-                                            {
-                                                let data = this.state.data;
-                                                const index = data.indexOf(oldData);
-                                                data.splice(index, 1);
-                                                this.setState({ data }, () => resolve());
-                                            }
+                                            this.props.deleteReservation(oldData._id)
                                             resolve()
                                         }, 1000)
                                     }),
@@ -119,15 +123,8 @@ class ManageReservations extends Component {
                         <MaterialTable
                             icons={tableIcons}
                             title="Past Reservations"
-                            columns={[
-                                { title: 'Date', field: 'date' },
-                                { title: 'User', field: 'user' },
-                                { title: 'Machine ID', field: 'machine' },
-                                { title: 'Billing Code', field: 'bill', type: 'numeric' },
-                            ]}
-                            data={[
-                                { date: '02-02-2020', user: 'test1234', machine: '01', bill: 12345 },
-                            ]}
+                            columns={this.state.columns}
+                            data={pastreservations}
                             options={{
                                 exportButton: true,
                                 search: true
@@ -143,14 +140,18 @@ class ManageReservations extends Component {
 ManageReservations.propTypes = {
     classes: PropTypes.object.isRequired,
     logoutUser: PropTypes.func.isRequired,
-    auth: PropTypes.object.isRequired
+    auth: PropTypes.object.isRequired,
+    upcomingreservations: PropTypes.object.isRequired,
+    pastreservations: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-    auth: state.auth
+    auth: state.auth,
+    upcomingreservations: state.upcomingreservations,
+    pastreservations: state.pastreservations
 });
 
 export default compose(
     withStyles(styles),
-    connect(mapStateToProps, { logoutUser })
+    connect(mapStateToProps, { logoutUser, getUpcomingReservations, getPastReservations, deleteReservation })
 )(ManageReservations);

@@ -1,151 +1,108 @@
 import React, { Component } from "react";
-import Scheduler, {
-  SchedulerData,
-  ViewTypes,
-  DATE_FORMAT
-} from "react-big-scheduler";
+import Scheduler from "react-big-scheduler";
+import {
+  prevClick,
+  nextClick,
+  onViewChange,
+  onSelectDate,
+  newEvent,
+  loadAgendaData
+} from '../../actions/schedulerActions';
 import "react-big-scheduler/lib/css/style.css";
+import { connect } from "react-redux";
+import { compose } from 'redux';
 import moment from "moment";
 
 import withDragDropContext from "./components/WithDndContext";
-import DemoData from './components/DemoData';
+
+const mapStateToProps = state => {
+  return {
+    viewModel: state.schedulerData,
+    auth: state.auth
+  }
+};
 
 class Calendar extends Component {
+
   constructor(props) {
     super(props);
-
-    let today = moment().format(DATE_FORMAT);
-
-    let schedulerData = new SchedulerData(
-      today,
-      ViewTypes.Day,
-      false,
-      false,
-      {
-        startResizable: false,
-        endResizable: false,
-        movable: false,
-        creatable: true,
-        schedulerWidth: '90%',
-        checkConflict: true,
-        views : [
-          {viewName: 'Day', viewType: ViewTypes.Day, showAgenda: false, isEventPerspective: false},
-          {viewName: 'Week', viewType: ViewTypes.Week, showAgenda: false, isEventPerspective: false},
-          {viewName: 'Month', viewType: ViewTypes.Month, showAgenda: false, isEventPerspective: false},
-        ]
-      }
-    );
-    schedulerData.localeMoment.locale("en");
-    schedulerData.setResources(DemoData.resources);
-    schedulerData.setEvents(DemoData.events);
     this.state = {
-      viewModel: schedulerData
+      newRes: [],
+      resFlg: false
     };
   }
 
+  componentDidMount = () => {
+    this.props.loadAgendaData();
+  }
+
+
+  prevClick = () => { this.props.prevClick() }
+  nextClick = () => { this.props.nextClick() }
+  onViewChange = (schedulerData, view) => { this.props.onViewChange(schedulerData, view) }
+  onSelectDate = (schedulerData, date) => { this.props.onSelectDate(schedulerData, date) }
+  newEvent = (schedulerData, slotId, slotName, start, end, type, item) => {
+    if (!this.state.resFlg) {
+      var today = moment().format("YYYY-MM-DD HH:mm:ss");
+      var dayAhead = moment().add(1, 'Day').format("YYYY-MM-DD HH:mm:ss");
+      if (moment(start).isBefore(today)) {
+        window.confirm("Not a valid reservation time.");
+      }
+      else if (moment(start).isBefore(dayAhead)) {
+        window.confirm("Reservations cannot be scheduled less than 24 hours in advanced.");
+      }
+      else {
+        this.props.newEvent(schedulerData, slotId, slotName, start, end, type, item);
+        let newFreshId = 0;
+        schedulerData.events.forEach((item) => {
+          if (item.id >= newFreshId) { newFreshId = item.id + 1; }
+        });
+
+        //Do a find machine here to attach the object id
+
+        let newEvent = {
+          id: newFreshId,
+          start: start,
+          end: end,
+          resourceId: slotId,
+          user: this.props.auth.user._id,
+          machine: [],
+          billingCode: [],
+          grad: []
+        }
+        this.setState({ newRes: newEvent, resFlg: true });
+        this.props.data.getReservation(this.state);
+      }
+    }
+    else {
+      if (window.confirm(`Only one reservation can be made at a time. Do you want to delete your current reservation time?`)) {
+        this.props.loadAgendaData();
+        this.setState({ newRes: [], resFlg: false });
+        this.props.data.getReservation(this.state);
+      }
+    }
+  }
+
   render() {
-    const { viewModel } = this.state;
     return (
       <div>
-          <Scheduler
-            schedulerData={viewModel}
-            prevClick={this.prevClick}
-            nextClick={this.nextClick}
-            onSelectDate={this.onSelectDate}
-            onViewChange={this.onViewChange}
-            newEvent={this.newEvent}
-            onScrollLeft={this.onScrollLeft}
-            onScrollRight={this.onScrollRight}
-            onScrollTop={this.onScrollTop}
-            onScrollBottom={this.onScrollBottom}
-            toggleExpandFunc={this.toggleExpandFunc}
-          />
+        <Scheduler
+          schedulerData={this.props.viewModel}
+          prevClick={this.prevClick}
+          nextClick={this.nextClick}
+          onSelectDate={this.onSelectDate}
+          onViewChange={this.onViewChange}
+          newEvent={this.newEvent}
+          onScrollTop={this.onScrollTop}
+          onScrollBottom={this.onScrollBottom}
+          toggleExpandFunc={this.toggleExpandFunc}
+        />
       </div>
     );
   }
 
-  prevClick = schedulerData => {
-    schedulerData.prev();
-    schedulerData.setEvents(DemoData.events);
-    this.setState({
-      viewModel: schedulerData
-    });
-  };
-
-  nextClick = schedulerData => {
-    schedulerData.next();
-    schedulerData.setEvents(DemoData.events);
-    this.setState({
-      viewModel: schedulerData
-    });
-  };
-
-  onViewChange = (schedulerData, view) => {
-    schedulerData.setViewType(
-      view.viewType,
-      view.showAgenda,
-      view.isEventPerspective
-    );
-    schedulerData.setEvents(DemoData.events);
-    this.setState({
-      viewModel: schedulerData
-    });
-  };
-
-  onSelectDate = (schedulerData, date) => {
-    schedulerData.setDate(date);
-    schedulerData.setEvents(DemoData.events);
-    this.setState({
-      viewModel: schedulerData
-    });
-  };
-
-  newEvent = (schedulerData, slotId, slotName, start, end, type, item) => {
-    if(schedulerData.viewType === 0) //Allows users to only create events in day view
-    {
-      // if(window.confirm(`Do you want to create a new event? {slotId: ${slotId}, slotName: ${slotName}, start: ${start}, end: ${end}, type: ${type}, item: ${item}}`)) {
-        if(window.confirm(`Create reservation for ${slotName} from ${start} to ${end}?`)) {
-        let newFreshId = 0;
-        schedulerData.events.forEach((item) => {
-          if(item.id >= newFreshId)
-          { newFreshId = item.id + 1; }
-        });
-  
-        let newEvent = {
-          id: newFreshId,
-          title: 'New Event',
-          start: start,
-          end: end,
-          resourceId: slotId,
-          bgColor: 'blue'
-        }
-        schedulerData.addEvent(newEvent);
-        this.setState({
-          viewModel: schedulerData
-        });
-      }
-    } 
-  };
-
-  onScrollRight = (schedulerData, schedulerContent, maxScrollLeft) => {
-    schedulerData.next();
-    schedulerData.setEvents(DemoData.events);
-    this.setState({
-      viewModel: schedulerData
-    });
-
-    schedulerContent.scrollLeft = maxScrollLeft - 10;
-  };
-
-  onScrollLeft = (schedulerData, schedulerContent, maxScrollLeft) => {
-    schedulerData.prev();
-    schedulerData.setEvents(DemoData.events);
-    this.setState({
-      viewModel: schedulerData
-    });
-
-    schedulerContent.scrollLeft = 10;
-  };
 }
-
-export default withDragDropContext(Calendar);
+export default compose(
+  connect(mapStateToProps, { prevClick, nextClick, onViewChange, onSelectDate, newEvent, loadAgendaData }),
+  withDragDropContext
+)(Calendar);

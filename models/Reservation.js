@@ -1,22 +1,33 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+
 //  Reservation Schema
-const ReservationSchema = new Schema ({
+const ReservationSchema = new Schema({
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: "users",
+        required: true
+    },
     id: {
         type: Number,
         required: true
     },
     start: {
-        type: Number,  //Stored in Unix Timestamp format
+        type: String,  //format: 'YYYY-MM-DD HH:MM:SS'
         required: true
     },
     end: {
-        type: Number,  //Stored in Unix Timestamp format
+        type: String,
         required: true
     },
     resourceId: {
         type: Number,
+        required: true
+    },
+    machine: {
+        type: Schema.Types.ObjectId,
+        ref: "machines",
         required: true
     },
     title: {
@@ -26,6 +37,15 @@ const ReservationSchema = new Schema ({
     bgColor: {
         type: String,
         default: '#c41d1d'
+    },
+    billingCode: {
+        type: Schema.Types.ObjectId,
+        ref: "billingcodes",
+        required: true
+    },
+    grad: {
+        type: Schema.Types.ObjectId,
+        ref: "users"
     },
 });
 

@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "../../actions/authActions";
-import { getCodes } from '../../actions/billingActions';
+import { getCodes, createCode, deleteCode } from '../../actions/billingActions';
 import Typography from '@material-ui/core/Typography';
 
 import ListItem from '@material-ui/core/ListItem';
@@ -25,10 +25,8 @@ import FirstPage from '@material-ui/icons/FirstPage';
 import LastPage from '@material-ui/icons/LastPage';
 import DeleteOutline from '@material-ui/icons/DeleteOutline';
 import muiTheme from '../../theme/muiTheme';
-import axios from "axios";
 
 const tableIcons = {
-    //DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
     FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
     LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
     NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
@@ -94,31 +92,22 @@ class ManageBilling extends Component {
                             title="Valid Billing Codes"
                             columns={this.state.columns}
                             data={codes}
-                            // editable={{
-                            //     onRowAdd: newData =>
-                            //         new Promise((resolve, reject) => {
-                            //             setTimeout(() => {
-                            //                 {
-                            //                     const data = this.state.data;
-                            //                     data.push(newData);
-                            //                     this.setState({ data }, () => resolve());
-                            //                 }
-                            //                 resolve()
-                            //             }, 1000)
-                            //         }),
-                            //     onRowDelete: oldData =>
-                            //         new Promise((resolve, reject) => {
-                            //             setTimeout(() => {
-                            //                 {
-                            //                     let data = this.state.data;
-                            //                     const index = data.indexOf(oldData);
-                            //                     data.splice(index, 1);
-                            //                     this.setState({ data }, () => resolve());
-                            //                 }
-                            //                 resolve()
-                            //             }, 1000)
-                            //         }),
-                            // }}
+                            editable={{
+                                onRowAdd: newData =>
+                                    new Promise((resolve, reject) => {
+                                        setTimeout(() => {
+                                            this.props.createCode(newData);
+                                            resolve()
+                                        }, 1000)
+                                    }),
+                                onRowDelete: oldData =>
+                                    new Promise((resolve, reject) => {
+                                        setTimeout(() => {
+                                            this.props.deleteCode(oldData._id)
+                                            resolve()
+                                        }, 1000)
+                                    }),
+                            }}
                             options={{
                                 exportButton: false,
                                 search: true
@@ -144,5 +133,5 @@ const mapStateToProps = state => ({
 
 export default compose(
     withStyles(styles),
-    connect(mapStateToProps, { logoutUser, getCodes })
+    connect(mapStateToProps, { logoutUser, getCodes, createCode, deleteCode })
 )(ManageBilling);

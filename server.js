@@ -47,8 +47,7 @@ app.use("/api/billingcodes", billingcodes);
 app.use("/api/reservations", reservations);
 
 //Serve static assets iff in production
-if(process.env.NODE_ENV === 'production')
-{
+if (process.env.NODE_ENV === 'production') {
   //Set static folder
   app.use(express.static("client/build"));
 

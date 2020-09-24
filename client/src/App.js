@@ -10,20 +10,15 @@ import store from "./store";
 import Landing from "./components/guest/Landing";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
-import PrivateRoute from "./components/private-route/PrivateRoute";
 import PrivateUndergradRoute from "./components/private-route/PrivateUndergradRoute";
 import PrivateGradRoute from "./components/private-route/PrivateGradRoute";
 import PrivateAdminRoute from "./components/private-route/PrivateAdminRoute";
 
-//import "./App.css";
 import UndergradHome from "./components/undergrad/UndergradHome";
 import UndergradAccount from "./components/undergrad/UndergradAccount";
-import Reservation from "./components/undergrad/reservation/Reservation";
 
 import GradHome from "./components/grad/GradHome";
 import GradAccount from "./components/grad/GradAccount";
-import GradHours from "./components/grad/GradHours";
-import GradReservation from "./components/grad/reservation/GradReservation";
 
 import ManageReservations from './components/admin/ManageReservations';
 import ManageMachines from './components/admin/ManageMachines';
@@ -56,25 +51,25 @@ class App extends Component {
       <Provider store={store}>
         <Router>
           <div className="App">
-            {/* //<Navbar /> */}
+            {/* Logged Out Routes */}
             <Route exact path="/" component={Landing} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
             <Switch>
+              {/* Undergrad Routes */}
               <PrivateUndergradRoute exact path="/home" component={UndergradHome} />
               <PrivateUndergradRoute exact path="/account" component={UndergradAccount} />
-              <PrivateUndergradRoute exact path="/u-reservations" component={Reservation} />
 
+              {/* Graduate Routes */}
               <PrivateGradRoute exact path="/ghome" component={GradHome} />
               <PrivateGradRoute exact path="/gaccount" component={GradAccount} />
-              <PrivateGradRoute exact path="/ghours" component={GradHours} />
-              <PrivateGradRoute exact path="/g-reservations" component={GradReservation}/>
 
+              {/* Admin Routes */}
               <PrivateAdminRoute exact path="/manage-reservations" component={ManageReservations} />
               <PrivateAdminRoute exact path="/manage-machines" component={ManageMachines} />
               <PrivateAdminRoute exact path="/manage-users" component={ManageUsers} />
               <PrivateAdminRoute exact path="/manage-billing" component={ManageBilling} />
-              <PrivateAdminRoute exact path="/manage-hours" component={ManageHours} />
+              <PrivateAdminRoute exact path="/areserve" component={ManageHours} />
             </Switch>
           </div>
         </Router>

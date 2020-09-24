@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "../../actions/authActions";
-import { getMachines } from '../../actions/machineActions';
+import { getMachines, createMachine, deleteMachine, updateMachine } from '../../actions/machineActions';
 import Typography from '@material-ui/core/Typography';
 
 import ListItem from '@material-ui/core/ListItem';
@@ -25,7 +25,6 @@ import FirstPage from '@material-ui/icons/FirstPage';
 import LastPage from '@material-ui/icons/LastPage';
 import DeleteOutline from '@material-ui/icons/DeleteOutline';
 import muiTheme from '../../theme/muiTheme';
-import axios from "axios";
 
 const tableIcons = {
     //DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
@@ -51,31 +50,14 @@ class ManageMachines extends Component {
         this.state = {
             columns: [
                 { title: 'ID', field: 'id' },
-                { title: 'Machine', field: 'name' },
-                // { title: 'Interval', field: 'interval' },
+                { title: 'Machine', field: 'name' }
             ],
-            //data: []
         };
     }
 
     componentDidMount() {
         this.props.getMachines();
     }
-
-    // componentDidMount() {
-    //     axios.get('http://localhost:5000/api/machines/getAll', {
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         }
-    //     })
-    //         .then(res => {
-    //             this.setState({ data: res.data })
-    //             console.log(this.state.data)
-    //         })
-    //         .catch(function (error) {
-    //             console.log(error);
-    //         })
-    // }
 
     onLogoutClick = e => {
         e.preventDefault();
@@ -110,45 +92,30 @@ class ManageMachines extends Component {
                             icons={tableIcons}
                             title="Machines"
                             columns={this.state.columns}
-                            //data={this.state.data}
                             data={machines}
-                            // editable={{
-                            //     onRowAdd: newData =>
-                            //         new Promise((resolve, reject) => {
-                            //             setTimeout(() => {
-                            //                 {
-                            //                     const data = this.state.data;
-                            //                     data.push(newData);
-                            //                     this.setState({ data }, () => resolve());
-                            //                 }
-                            //                 resolve()
-                            //             }, 1000)
-                            //         }),
-                            //     onRowUpdate: (newData, oldData) =>
-                            //         new Promise((resolve, reject) => {
-                            //             setTimeout(() => {
-                            //                 {
-                            //                     const data = this.state.data;
-                            //                     const index = data.indexOf(oldData);
-                            //                     data[index] = newData;
-                            //                     this.setState({ data }, () => resolve());
-                            //                 }
-                            //                 resolve()
-                            //             }, 1000)
-                            //         }),
-                            //     onRowDelete: oldData =>
-                            //         new Promise((resolve, reject) => {
-                            //             setTimeout(() => {
-                            //                 {
-                            //                     let data = this.state.data;
-                            //                     const index = data.indexOf(oldData);
-                            //                     data.splice(index, 1);
-                            //                     this.setState({ data }, () => resolve());
-                            //                 }
-                            //                 resolve()
-                            //             }, 1000)
-                            //         }),
-                            // }}
+                            editable={{
+                                onRowAdd: newData =>
+                                    new Promise((resolve, reject) => {
+                                        setTimeout(() => {
+                                            this.props.createMachine(newData);
+                                            resolve()
+                                        }, 1000)
+                                    }),
+                                onRowUpdate: (newData, oldData) =>
+                                    new Promise((resolve, reject) => {
+                                        setTimeout(() => {
+                                            this.props.updateMachine(newData);
+                                            resolve()
+                                        }, 1000)
+                                    }),
+                                onRowDelete: oldData =>
+                                    new Promise((resolve, reject) => {
+                                        setTimeout(() => {
+                                            this.props.deleteMachine(oldData._id)
+                                            resolve()
+                                        }, 1000)
+                                    }),
+                            }}
                             options={{
                                 exportButton: false,
                                 search: true
@@ -174,5 +141,5 @@ const mapStateToProps = state => ({
 
 export default compose(
     withStyles(styles),
-    connect(mapStateToProps, { logoutUser, getMachines })
+    connect(mapStateToProps, { logoutUser, getMachines, createMachine, deleteMachine, updateMachine })
 )(ManageMachines);
